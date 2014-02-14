@@ -1,0 +1,50 @@
+To add a keyboard layout to X11/xkb/rules/evdev.xml (i.e. for use in Ubuntu
+8.10 and higher):
+
+Open X11/xkb/rules/evdev.xml in an editor
+Go to the end of the <layoutList> section (search for </layoutList>). Add the
+following after the last </layout> tag, where x is the file name of your
+keyboard layout in X11/xkb/symbols (in my case Old English); y a suitable short
+name (in my case OE); z an appropriate long name in one or more languages (in
+my case “Old English”), and aaa a legal three letter (ISO 639-2) language code
+(e.g. eng for English):
+
+       <layout>
+         <configItem>
+           <name> x </name>
+           <shortDescription> y </shortDescription>
+           <description> z </description>
+           <languageList>
+              <iso639Id> aaa </iso639Id>
+           </languageList>
+         </configItem>
+         <variantList/>
+       </layout>
+
+
+
+which in our case gives;
+
+    <layout>
+      <configItem>
+        <name>qflm</name>
+
+        <shortDescription>am</shortDescription>
+        <description>americano-qflm</description>
+        <languageList>
+          <iso639Id>eng</iso639Id>
+        </languageList>
+      </configItem>
+    </layout>
+
+
+# a few commands speedup things
+cd /usr/share/X11/xkb/rules/
+
+# and put a symlink which points to your new keyboard map in
+# /usr/share/X11/xkb/symbols
+
+ln -s ~/dotfiles/keyboard/qflm /usr/share/X11/xkb/symbols/qflm
+
+
+# Et voilà !
