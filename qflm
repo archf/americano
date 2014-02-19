@@ -31,7 +31,7 @@ xkb_symbols "basic" {
     key <AD07> { [            u,            U,          uacute,           Uacute ] };
     key <AD08> { [            i,            I,          iacute,           Iacute ] };
     key <AD09> { [            o,            O,          oacute,           Oacute ] };
-    key <AD10> { [            j,            J  ] };
+    key <AD10> { [            b,            B  ] };
     key <AD11> { [            k,            K  ] };
     key <AD12> { [  dead_circumflex,   dead_diaeresis ] };
 #    key <AD11> { [  bracketleft,    braceleft,   guillemotleft,        0x1002039 ] };
@@ -42,19 +42,19 @@ xkb_symbols "basic" {
     key <AC02> { [            r,            R,     bracketleft,        braceleft ] };
     key <AC03> { [            s,            S,     bracketright,      braceright ] };
     key <AC04> { [            t,            T  ] };
-    key <AC05> { [            g,            G,      dead_acute ] };
+    key <AC05> { [            d,            D  ] };
     key <AC06> { [            h,            H  ] };
     key <AC07> { [            n,            N,          ntilde,           Ntilde ] };
     key <AC08> { [            e,            E,          eacute,           Eacute ] };
-    key <AC09> { [            p,            P,          oslash,         Ooblique ] };
-    key <AC10> { [            d,            D  ] };
+    key <AC09> { [            g,            G,      dead_acute ] };
+    key <AC10> { [            p,            P,          oslash,         Ooblique ] };
     key <AC11> { [   apostrophe,     quotedbl  ] }; 
 
     key <AB01> { [            z,            Z,    braceleft ] };
     key <AB02> { [            x,            X,    braceright ] };
     key <AB03> { [            c,            C,        ccedilla,         Ccedilla ] };
     key <AB04> { [            v,            V  ] };
-    key <AB05> { [            b,            B  ] };
+    key <AB05> { [            j,            J  ] };
     key <AB06> { [       eacute,        Eacute ] };
     key <AB07> { [    semicolon,        colons ] };
     key <AB08> { [        comma,         less,    dead_cedilla ] };
