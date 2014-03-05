@@ -1,5 +1,4 @@
-To add a keyboard layout to X11/xkb/rules/evdev.xml (i.e. for use in Ubuntu
-8.10 and higher):
+To add a keyboard layout to X11/xkb/rules/evdev.xml 
 
 Open X11/xkb/rules/evdev.xml in an editor
 Go to the end of the <layoutList> section (search for </layoutList>). Add the
@@ -21,8 +20,6 @@ my case “Old English”), and aaa a legal three letter (ISO 639-2) language co
          <variantList/>
        </layout>
 
-
-
 which in our case gives;
 
     <layout>
@@ -37,6 +34,21 @@ which in our case gives;
       </configItem>
     </layout>
 
+or
+
+which in our case gives;
+
+    <layout>
+      <configItem>
+        <name>qwlm</name>
+
+        <shortDescription>am</shortDescription>
+        <description>americano-qwlm</description>
+        <languageList>
+          <iso639Id>eng</iso639Id>
+        </languageList>
+      </configItem>
+    </layout>
 
 # a few commands speedup things
 cd /usr/share/X11/xkb/rules/
