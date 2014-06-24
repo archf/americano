@@ -3,7 +3,7 @@
 //xkb_symbols "basic" {
 //    include "us(basic)"
 
-default partial  
+default partial
 xkb_symbols "basic" {
     name[Group1]= "americano-qwlm";
 
@@ -26,13 +26,13 @@ xkb_symbols "basic" {
     key <AD02> { [            w,            W,  parenleft  ] };
     key <AD03> { [            l,            L,  parenright ] };
     key <AD04> { [            m,            M  ] };
-    key <AD05> { [            g,            G,      dead_acute ] };
+    key <AD05> { [            f,            F  ] };
     key <AD06> { [            y,            Y,      udiaeresis,       Udiaeresis ] };
     key <AD07> { [            u,            U,          uacute,           Uacute ] };
     key <AD08> { [            i,            I,          iacute,           Iacute ] };
     key <AD09> { [            o,            O,          oacute,           Oacute ] };
     key <AD10> { [            k,            K  ] };
-    key <AD11> { [       eacute,        Eacute ] };
+    key <AD11> { [    semicolon,        colon  ] };
     key <AD12> { [  dead_circumflex,   dead_diaeresis ] };
 #    key <AD11> { [  bracketleft,    braceleft,   guillemotleft,        0x1002039 ] };
 #    key <AD12> { [ bracketright,   braceright,  guillemotright,        0x100203a ] };
@@ -42,28 +42,31 @@ xkb_symbols "basic" {
     key <AC02> { [            r,            R,     bracketleft,        braceleft ] };
     key <AC03> { [            s,            S,     bracketright,       braceright ] };
     key <AC04> { [            t,            T  ] };
-    key <AC05> { [            f,            F  ] };
+    key <AC05> { [            g,            G,      dead_acute ] };
     key <AC06> { [            h,            H  ] };
     key <AC07> { [            n,            N,          ntilde,           Ntilde ] };
     key <AC08> { [            e,            E,          eacute,           Eacute ] };
     key <AC09> { [            d,            D  ] };
     key <AC10> { [            p,            P,          oslash,         Ooblique ] };
-    key <AC11> { [   apostrophe,     quotedbl  ] }; 
+    key <AC11> { [   apostrophe,     quotedbl  ] };
 
     key <AB01> { [            z,            Z,    braceleft ] };
     key <AB02> { [            x,            X,    braceright ] };
     key <AB03> { [            c,            C,        ccedilla,         Ccedilla ] };
     key <AB04> { [            v,            V  ] };
     key <AB05> { [            b,            B  ] };
-    key <AB06> { [            j,            J  ] };
-    key <AB07> { [    semicolon,        colons ] };
+    key <AB06> { [       eacute,        Eacute ] };
+    key <AB07> { [            j,            J  ] };
     key <AB08> { [        comma,         less,    dead_cedilla ] };
     key <AB09> { [       period,      greater,   dead_abovedot ] };
     key <AB10> { [        slash,     question,    questiondown ] };
 
     key <LSGT> { [        minus,   underscore,          endash,           emdash ] };
     key <SPCE> { [        space,        space,           space,     nobreakspace ] };
+    key <ESC> { [  Caps_Lock  ] };
+    key <CAPS> { [  Escape  ] };
 
     include "level3(ralt_switch)"
+#   option "caps:swapescape"
 #   include "level3(caps_switch)"
 };
