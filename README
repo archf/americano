@@ -1,6 +1,7 @@
-To add a keyboard layout to X11/xkb/rules/evdev.xml 
+To add a keyboard layout to X11/xkb/rules/evdev.xml
 
 Open X11/xkb/rules/evdev.xml in an editor
+
 Go to the end of the <layoutList> section (search for </layoutList>). Add the
 following after the last </layout> tag, where x is the file name of your
 keyboard layout in X11/xkb/symbols (in my case Old English); y a suitable short
@@ -24,22 +25,6 @@ which in our case gives;
 
     <layout>
       <configItem>
-        <name>qflm</name>
-
-        <shortDescription>am</shortDescription>
-        <description>americano-qflm</description>
-        <languageList>
-          <iso639Id>eng</iso639Id>
-        </languageList>
-      </configItem>
-    </layout>
-
-or
-
-which in our case gives;
-
-    <layout>
-      <configItem>
         <name>qwlm</name>
 
         <shortDescription>am</shortDescription>
@@ -56,7 +41,7 @@ cd /usr/share/X11/xkb/rules/
 # and put a symlink which points to your new keyboard map in
 # /usr/share/X11/xkb/symbols
 
-ln -s ~/dotfiles/keyboard/qflm /usr/share/X11/xkb/symbols/qflm
+ln -s ~/dotfiles/keyboard/qwlm /usr/share/X11/xkb/symbols/qwlm
 
 
 # Et voilà !
