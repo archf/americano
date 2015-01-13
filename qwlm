@@ -64,7 +64,8 @@ xkb_symbols "basic" {
     key <LSGT> { [        minus,   underscore,          endash,           emdash ] };
     key <SPCE> { [        space,        space,           space,     nobreakspace ] };
     key <ESC> { [  Caps_Lock  ] };
-    key <CAPS> { [  Escape  ] };
+    key <CAPS> { [  Control_L  ] };
+    key <LCTL> { [  Escape  ] };
 
     include "level3(ralt_switch)"
 #   option "caps:swapescape"
