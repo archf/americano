@@ -1,7 +1,5 @@
 //  qwlm symbols for xkb on X.Org Server 7.x
 // 2013-02-10 Félix Archambault, http://??????.com/ . Public domain.
-//xkb_symbols "basic" {
-//    include "us(basic)"
 
 default partial
 xkb_symbols "basic" {
@@ -23,9 +21,9 @@ xkb_symbols "basic" {
     key <AE12> { [        equal,         plus,        multiply,         division ] };
 
     key <AD01> { [            q,            Q,          aacute,           Aacute ] };
-    key <AD02> { [            w,            W,  parenleft  ] };
-    key <AD03> { [            l,            L,  parenright ] };
-    key <AD04> { [            m,            M  ] };
+    key <AD02> { [            w,            W  ] };
+    key <AD03> { [            l,            L,   braceleft,           parenleft ] };
+    key <AD04> { [            m,            M,   braceright,          parenright ] };
     key <AD05> { [            f,            F  ] };
     key <AD06> { [            y,            Y,      udiaeresis,       Udiaeresis ] };
     key <AD07> { [            u,            U,          uacute,           Uacute ] };
@@ -39,9 +37,9 @@ xkb_symbols "basic" {
     key <BKSL> { [    backslash,          bar             ] };
 
     key <AC01> { [            a,            A,          agrave,           Agrave ] };
-    key <AC02> { [            r,            R,     bracketleft,        braceleft ] };
-    key <AC03> { [            s,            S,     bracketright,       braceright ] };
-    key <AC04> { [            t,            T  ] };
+    key <AC02> { [            r,            R     ] };
+    key <AC03> { [            s,            S,     bracketleft,       braceleft ] };
+    key <AC04> { [            t,            T,      braceright,        braceright] };
     key <AC05> { [            g,            G,      dead_acute ] };
     key <AC06> { [            h,            H  ] };
     key <AC07> { [            n,            N,          ntilde,           Ntilde ] };
@@ -53,8 +51,8 @@ xkb_symbols "basic" {
     key <AB01> { [            z,            Z,    braceleft ] };
     key <AB02> { [            x,            X,    braceright ] };
     key <AB03> { [            c,            C,        ccedilla,         Ccedilla ] };
-    key <AB04> { [            v,            V  ] };
-    key <AB05> { [            b,            B  ] };
+    key <AB04> { [            v,            V,    dead_circumflex] };
+    key <AB05> { [            b,            B,    dead_diaeresis  ] };
     key <AB06> { [       eacute,        Eacute ] };
     key <AB07> { [            j,            J  ] };
     key <AB08> { [        comma,         less,    dead_cedilla ] };
