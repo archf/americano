@@ -22,8 +22,8 @@ xkb_symbols "basic" {
 
     key <AD01> { [            q,            Q,          aacute,           Aacute ] };
     key <AD02> { [            w,            W  ] };
-    key <AD03> { [            s,            S,   braceleft,           parenleft ] };
-    key <AD04> { [            m,            M,   braceright,          parenright ] };
+    key <AD03> { [            s,            S,   bracketleft,           parenleft ] };
+    key <AD04> { [            m,            M,   bracketright,          parenright ] };
     key <AD05> { [            f,            F  ] };
     key <AD06> { [            y,            Y,      udiaeresis,       Udiaeresis ] };
     key <AD07> { [            u,            U,          uacute,           Uacute ] };
@@ -38,8 +38,8 @@ xkb_symbols "basic" {
 
     key <AC01> { [            a,            A,          agrave,           Agrave ] };
     key <AC02> { [            r,            R     ] };
-    key <AC03> { [            l,            L,     bracketleft,       braceleft ] };
-    key <AC04> { [            t,            T,      braceright,        braceright] };
+    key <AC03> { [            l,            L,     braceleft,       bracketleft ] };
+    key <AC04> { [            t,            T,      braceright,        braceketright] };
     key <AC05> { [            g,            G,      dead_acute ] };
     key <AC06> { [            h,            H  ] };
     key <AC07> { [            n,            N,          ntilde,           Ntilde ] };
