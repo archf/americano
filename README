@@ -1,3 +1,20 @@
+## The layout
+
+qwlmf yuik[]
+arstg hnep'
+zxcvb éj,./
+
+QLWMF YUIKOK{}
+ARSTG HNPEDP"
+ZXCVB ÉJ,.?
+
+
+## Supported platform
+- linux
+- windows
+
+## Linux installation
+
 To add a keyboard layout to X11/xkb/rules/evdev.xml
 
 Open X11/xkb/rules/evdev.xml in an editor
@@ -37,13 +54,17 @@ which in our case gives:
       </configItem>
     </layout>
 
-# important directories
+important directories
+
 cd /usr/share/X11/xkb/rules/
 cd /usr/share/X11/xkb/symbols
 
-# symlink which points to your new keyboard mapping
+symlink which points to your new keyboard mapping
 
 ln -s ~/dotfiles/keyboard/qwlm /usr/share/X11/xkb/symbols/qwlm
 
+## Windows installation
 
-# Et voilà !
+Simply run the installer
+
+## Et voilà!
