@@ -9,7 +9,7 @@ ARSTG HNPEDP"
 ZXCVB ÉJ,.?
 
 
-## Supported platform
+## Supported platforms
 - linux
 - windows
 
