@@ -1,17 +1,17 @@
 ## The layout
 
-qwlmf yuik[]
-arstg hnep'
-zxcvb éj,./
+qwlmf yuik[]' <br/>
+arstg hnep' <br/>
+zxcvb éj,./ <br/>
 
-QLWMF YUIKOK{}
-ARSTG HNPEDP"
-ZXCVB ÉJ,.?
+QLWMF YUIKOK{} <br/>
+ARSTG HNPEDP" <br/>
+ZXCVB ÉJ,.? <br/>
 
 
 ## Supported platforms
-- linux
-- windows
+* linux
+* windows
 
 ## Linux installation
 
