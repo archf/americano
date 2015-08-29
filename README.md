@@ -54,17 +54,18 @@ which in our case gives:
       </configItem>
     </layout>
 
-important directories
+### Quick acces to important directories
 
+```bash
 cd /usr/share/X11/xkb/rules/
 cd /usr/share/X11/xkb/symbols
+```
+### Create a symlink which points to your new keyboard mapping
 
-symlink which points to your new keyboard mapping
-
-ln -s ~/dotfiles/keyboard/qwlm /usr/share/X11/xkb/symbols/qwlm
+ln -s ~/dotfiles/americano/qwlm /usr/share/X11/xkb/symbols/qwlm
 
 ## Windows installation
 
-Simply run the installer
+Simply run the installer. You can edit the klc file and recompile if you wish. You will need microsoft keyboad layout creator though.
 
 ## Et voilà!
