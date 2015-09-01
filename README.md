@@ -8,18 +8,19 @@ QLWMF YUIKOK{} <br/>
 ARSTG HNPEDP" <br/>
 ZXCVB ÉJ,.? <br/>
 
-
 ## Supported platforms
 * linux
 * windows
 
-## Linux installation
+## Installation
 
-To add a keyboard layout to X11/xkb/rules/evdev.xml
+### Linux installation
 
-Open X11/xkb/rules/evdev.xml in an editor
+You must add the keyboard layout in the  `/usr/shareX11/xkb/rules/evdev.xml`
 
-Go to the end of the <layoutList> section (search for </layoutList>). Add the
+Open `/usr/shareX11/xkb/rules/evdev.xml` in your favorite editor.
+
+Go to the end of the `<layoutList>` section (search for `</layoutList>`). Add the
 following after the last </layout> tag, where:
 
 layout_name is the file name of your keyboard layout in X11/xkb/symbols (in my case qwlm)
@@ -28,7 +29,7 @@ description an appropriate long name in one or more languages (in my case “ame
 eng a legal three letter (ISO 639-2) language code (e.g. eng for English)
 
 template:
-
+```xml
        <layout>
          <configItem>
            <name> layout_name </name>
@@ -40,9 +41,11 @@ template:
          </configItem>
          <variantList/>
        </layout>
+```
 
 which in our case gives:
 
+```xml
     <layout>
       <configItem>
         <name>qwlm</name>
@@ -53,19 +56,24 @@ which in our case gives:
         </languageList>
       </configItem>
     </layout>
+```
 
-### Quick acces to important directories
+Quick commands
 
 ```bash
-cd /usr/share/X11/xkb/rules/
-cd /usr/share/X11/xkb/symbols
-```
-### Create a symlink which points to your new keyboard mapping
+# edit the /usr/shareX11/xkb/rules/evdev.xml file
+sudo vim /usr/share/X11/xkb/rules/evdev.xml
 
+# add a symlink
 ln -s ~/dotfiles/americano/qwlm /usr/share/X11/xkb/symbols/qwlm
+```
 
-## Windows installation
+You might need to restart your session (logout-login) to make it available to 
+
+### Windows installation
 
 Simply run the installer. You can edit the klc file and recompile if you wish. You will need microsoft keyboad layout creator though.
 
 ## Et voilà!
+
+Feel free to improve!
