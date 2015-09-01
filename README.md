@@ -65,7 +65,7 @@ Quick commands
 sudo vim /usr/share/X11/xkb/rules/evdev.xml
 
 # add a symlink
-ln -s ~/dotfiles/americano/qwlm /usr/share/X11/xkb/symbols/qwlm
+sudo ln -s ~/dotfiles/americano/qwlm /usr/share/X11/xkb/symbols/qwlm
 ```
 
 You might need to restart your session (logout-login) to make it available to 
