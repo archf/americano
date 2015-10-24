@@ -16,9 +16,15 @@ ZXCVB ÉJ,.? <br/>
 
 ### Linux installation
 
-You must add the keyboard layout in the  `/usr/shareX11/xkb/rules/evdev.xml`
+#### Automated method
 
-Open `/usr/shareX11/xkb/rules/evdev.xml` in your favorite editor.
+Run `./install.sh`. This will overwrite the `/usr/shareX11/xkb/rules/evdev.xml` provided by your OS and/or any change you previously made to it.
+
+#### Install manually
+
+You must add the keyboard layout in the  `/usr/share/X11/xkb/rules/evdev.xml`
+
+Open `/usr/share/X11/xkb/rules/evdev.xml` in your favorite editor.
 
 Go to the end of the `<layoutList>` section (search for `</layoutList>`). Add the
 following after the last </layout> tag, where:
@@ -68,7 +74,7 @@ sudo vim /usr/share/X11/xkb/rules/evdev.xml
 sudo ln -s ~/dotfiles/americano/qwlm /usr/share/X11/xkb/symbols/qwlm
 ```
 
-You might need to restart your session (logout-login) to make it available to 
+You might need to restart your session (logout-login) to make it available to your desktop environnement.
 
 ### Windows installation
 
