@@ -1,12 +1,31 @@
 ## The layout
 
-qwlmf yuik[]' <br/>
-arstg hnep' <br/>
-zxcvb éj,./ <br/>
+### multilingual
+
+qwlmf yéik[]' <br/>
+arstg huep' <br/>
+zxcvb nj,./ <br/>
+
+QLWMF YÉIKOK{} <br/>
+ARSTG HUPEDP" <br/>
+ZXCVB NJ,.? <br/>
+
+### english only (CODE)
+
+qwlmf y:ik[]' <br/>
+arstg huep' <br/>
+zxcvb nj,./ <br/>
 
 QLWMF YUIKOK{} <br/>
 ARSTG HNPEDP" <br/>
 ZXCVB ÉJ,.? <br/>
+
+* no Level3(ralt_switch)
+* no deadgrave
+
+## Supported platforms
+* linux
+* windows
 
 ## Supported platforms
 * linux
@@ -18,7 +37,8 @@ ZXCVB ÉJ,.? <br/>
 
 #### Automated method
 
-Run `./install.sh`. This will overwrite the `/usr/shareX11/xkb/rules/evdev.xml` provided by your OS and/or any change you previously made to it.
+Run `make install`. This will overwrite the `/usr/shareX11/xkb/rules/evdev.xml`
+provided by your OS and/or any change you previously made to it.
 
 #### Install manually
 

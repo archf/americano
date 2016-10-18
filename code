@@ -1,12 +1,12 @@
-//  qwlm symbols for xkb on X.Org Server 7.x
+//  code symbols for xkb on X.Org Server 7.x
 // 2013-02-10 Félix Archambault, http://??????.com/ . Public domain.
 
 default partial
-xkb_symbols "americano" {
-    name[Group1]= "americano-qwlm";
+xkb_symbols "CODE" {
+    name[Group1]= "americano-code";
 
     // Alphanumeric section
-    key <TLDE> { [   dead_grave,   asciitilde,      grave ] };
+    key <TLDE> { [        grave,   asciitilde,      grave ] };
     key <AE01> { [            1,       exclam,      exclamdown,      onesuperior ] };
     key <AE02> { [            2,           at,       masculine,      twosuperior ] };
     key <AE03> { [            3,   numbersign,     ordfeminine,    threesuperior ] };
@@ -26,7 +26,7 @@ xkb_symbols "americano" {
     key <AD04> { [            m,            M,   mu  ] };
     key <AD05> { [            f,            F,   dead_acute   ] };
     key <AD06> { [            y,            Y,      udiaeresis,       Udiaeresis ] };
-    key <AD07> { [       eacute,        Eacute  ] };
+    key <AD07> { [        colon,    semicolon   ] };
     key <AD08> { [            i,            I,          iacute,           Iacute ] };
     key <AD09> { [            o,            O,          oacute,           Oacute ] };
     key <AD10> { [            k,            K   ] };
@@ -67,7 +67,6 @@ xkb_symbols "americano" {
     key <CAPS> { [  Control_L  ] };
     key <LCTL> { [  Escape  ] };
 
-    include "level3(ralt_switch)"
 #   option "caps:swapescape"
 #   include "level3(caps_switch)"
 };
