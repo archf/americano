@@ -12,9 +12,9 @@ install:
 	/bin/chown root:root ${TARGET}
 
 	@echo 'create a symlink in $(XKBPATH)/symbols/qwlm versionned code symbol file'
-	[ ! -L $(XKBPATH)/symbols/qwlm ] && ln -s $(PWD)/code $(XKBPATH)/symbols/code
+	test -L $(XKBPATH)/symbols/qwlm || ln -s $(PWD)/code $(XKBPATH)/symbols/code
 
 	@echo 'create a symlink in $(XKBPATH)/symbols/qwlm versionned qwlm symbol file'
-	[ ! -L $(XKBPATH)/symbols/qwlm ] && ln -s $(PWD)/qwlm $(XKBPATH)/symbols/qwlm
+	test -L $(XKBPATH)/symbols/qwlm || ln -s $(PWD)/qwlm $(XKBPATH)/symbols/qwlm
 
 	@echo 'All done! Enjoy !!!'
