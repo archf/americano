@@ -15,4 +15,4 @@ install: $(LAYOUTS)
 	@echo 'All done! Enjoy !!!'
 
 $(LAYOUTS):
-	ln -s $(PWD)/$(@F) $@
+	ln -s $(CURDIR)/$(@F) $@
