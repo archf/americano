@@ -40,6 +40,10 @@ ZXCVB ÉJ,.? <br/>
 Run `make install`. This will overwrite the `/usr/shareX11/xkb/rules/evdev.xml`
 provided by your OS and/or any change you previously made to it.
 
+Then you should be able to add keyboard to you Desktop Environment.
+
+For mate-desktop: `make de-mate`
+
 #### Install manually
 
 You must add the keyboard layout in the  `/usr/share/X11/xkb/rules/evdev.xml`

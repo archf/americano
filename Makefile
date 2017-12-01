@@ -14,5 +14,11 @@ install: $(LAYOUTS)
 
 	@echo 'All done! Enjoy !!!'
 
+# add it to your Desktop environment
+.PHONY: de-mate
+de-mate:
+	gsettings set org.mate.peripherals-keyboard-xkb.kbd layouts ['code', 'qwlm', 'us', 'ca']
+	gsettings set org.mate.peripherals-keyboard-xkb.kbd options ['grp\tgrp:shifts_toggle']
+
 $(LAYOUTS):
 	ln -s $(CURDIR)/$(@F) $@
