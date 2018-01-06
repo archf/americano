@@ -15,10 +15,16 @@ install: $(LAYOUTS)
 	@echo 'All done! Enjoy !!!'
 
 # add it to your Desktop environment
-.PHONY: de-mate
+.PHONY: de-mate de-gnome
+
 de-mate:
-	gsettings set org.mate.peripherals-keyboard-xkb.kbd layouts ['code', 'qwlm', 'us', 'ca']
-	gsettings set org.mate.peripherals-keyboard-xkb.kbd options ['grp\tgrp:shifts_toggle']
+	gsettings set org.mate.peripherals-keyboard-xkb.kbd layouts "['code', 'qwlm', 'us', 'ca']"
+	gsettings set org.mate.peripherals-keyboard-xkb.kbd options "['grp\tgrp:shifts_toggle']"
+
+de-gnome:
+	# gsettings set org.gnome.desktop.input-sources mru-sources "[('xkb', 'code'), ('xkb', 'ca'), ('xkb', 'us'), ('xkb', 'qwlm')]"
+	gsettings set org.gnome.desktop.input-sources xkb-options "['grp:shifts_toggle']"
+	gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'code'), ('xkb', 'qwlm'), ('xkb', 'us'), ('xkb', 'ca')]"
 
 $(LAYOUTS):
 	ln -s $(CURDIR)/$(@F) $@

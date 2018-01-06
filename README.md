@@ -43,6 +43,7 @@ provided by your OS and/or any change you previously made to it.
 Then you should be able to add keyboard to you Desktop Environment.
 
 For mate-desktop: `make de-mate`
+For gnome-desktop: `make de-gnome`
 
 #### Install manually
 
