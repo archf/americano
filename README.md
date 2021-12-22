@@ -28,8 +28,10 @@ ZXCVB ÉJ,.? <br/>
 * windows
 
 ## Supported platforms
+
 * linux
 * windows
+* OSX (using Ukelele app)
 
 ## Installation
 
