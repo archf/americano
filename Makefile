@@ -27,3 +27,9 @@ de-gnome:
 
 $(LAYOUTS):
 	ln -s $(CURDIR)/$(@F) $@
+
+.PHONY: osx
+osx:
+	mkdir -p ~/Library/KeyBindings/
+	cp osx/DefaultKeyBinding.Dict ~/Library/KeyBindings/DefaultKeyBinding.Dict
+	sudo rsync -r osx/americano.bundle ~/Library/Keyboard\ Layouts
