@@ -32,4 +32,5 @@ $(LAYOUTS):
 osx:
 	mkdir -p ~/Library/KeyBindings/
 	cp osx/DefaultKeyBinding.Dict ~/Library/KeyBindings/DefaultKeyBinding.Dict
+	cp -r osx/karabiner ~/.config/
 	sudo rsync -r osx/americano.bundle ~/Library/Keyboard\ Layouts
