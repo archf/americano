@@ -5,12 +5,13 @@ LAYOUTS = $(XKBPATH)/symbols/code $(XKBPATH)/symbols/qwlm
 .PHONY: install
 	@echo 'All done! Enjoy !!!'
 install: $(LAYOUTS)
-	@echo "backing up '$(XKBPATH)/rules/evdev.xml' to '$(XKBPATH)/rules/evdev.xml.$(date +%Y%m%d)'"
+	ln -s /home/archf/dotfiles/americano/code /usr/share/X11/xkb/symbols/code
+	ln -s /home/archf/dotfiles/americano/qwlm /usr/share/X11/xkb/symbols/qwlm
+	@echo "backing up '$(XKBPATH)/rules/evdev.xml' to '$(XKBPATH)/rules/evdev.xml.$$(date +%Y%m%d)'"
 	/bin/cp $(XKBPATH)/rules/evdev.xml $(XKBPATH)/rules/evdev.xml.$(date +%Y%m%d)
-
-	@echo 'replacing current evdev.xml'
+	@echo 'replacing $(XKBPATH)/rules/evdev.xml'
 	/usr/bin/install -o root -g root evdev.xml $(XKBPATH)/rules/evdev.xml
-
+	@apt install -y libxkbregistry-dev
 	@echo 'All done! Enjoy !!!'
 
 # add it to your Desktop environment
