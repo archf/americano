@@ -1,8 +1,24 @@
 //  code symbols for xkb on X.Org Server 7.x
 // 2013-02-10 Félix Archambault, http://??????.com/ . Public domain.
 
-default partial
-xkb_symbols "CODE" {
+// # vim: ft=xkb
+
+// Groups: alternative sets of symbols available in a keymap, you can have
+// at most 4 of them for each keymap
+
+// default: Marks this as the default variant in the configuration file, for
+// use when no variant is specified. See section 3 There is a suspicion that
+// the default entry should be the first entry in a file.
+
+// partial: Indicates that this bit of configuration is only partial and
+// needs to be included into a more complete configuration.
+
+// alphanumeric_keys: Indicates a partial symbol map with alphanumeric keys.
+
+// modifier_keys: Indicates a partial symbol map with modifier keys.
+
+default partial alphanumeric_keys modifier_keys
+xkb_symbols "code" {
     name[Group1]= "americano-code";
 
     // Alphanumeric section
@@ -30,10 +46,6 @@ xkb_symbols "CODE" {
     key <AD08> { [            i,            I,          iacute,           Iacute ] };
     key <AD09> { [            o,            O,          oacute,           Oacute ] };
     key <AD10> { [            k,            K   ] };
-
-#    key <AD11> { [    semicolon,        colon  ] };
-#    key <AD12> { [  dead_circumflex,   dead_diaeresis ] };
-
     key <AD11> { [  bracketleft,    braceleft,   guillemotleft ] };
     key <AD12> { [ bracketright,   braceright,  guillemotright ] };
     key <BKSL> { [    backslash,          bar             ] };
@@ -61,12 +73,24 @@ xkb_symbols "CODE" {
     key <AB09> { [       period,      greater,   dead_abovedot ] };
     key <AB10> { [        slash,     question,    questiondown ] };
 
+    // modifier_keys
     key <LSGT> { [        minus,   underscore,          endash,           emdash ] };
     key <SPCE> { [        space,        space,           space,     nobreakspace ] };
-    key <ESC> { [  Caps_Lock  ] };
+    key <ESC>  { [  Caps_Lock  ] };
     key <CAPS> { [  Control_L  ] };
     key <LCTL> { [  Escape  ] };
 
-#   option "caps:swapescape"
-#   include "level3(caps_switch)"
+    // Right Alt key never chooses 3rd level
+    // option "lv3:ralt_alt"
+    // key <RALT> {[  Alt_R,  Meta_R  ], type[group1]="TWO_LEVEL" };
+    // modifier_map Mod1 { <RALT> };
+
+    // The CapsLock key (while pressed) chooses the third shift level.
+    // key <CAPS> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
+
+    //  Swap ESC and Caps Lock
+    // option "caps:swapescape"
+
+    // The CapsLock key (while pressed) chooses the third shift level.
+    // include "level3(caps_switch)"
 };

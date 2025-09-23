@@ -103,9 +103,29 @@ sudo ln -s ~/dotfiles/americano/qwlm /usr/share/X11/xkb/symbols/qwlm
 
 You might need to restart your session (logout-login) to make it available to your desktop environnement.
 
+Gnome related configuration
+
+```bash
+
+> gsettings list-recursively org.gnome.desktop.input-sources
+org.gnome.desktop.input-sources current uint32 0
+org.gnome.desktop.input-sources mru-sources [('xkb', 'code'), ('xkb', 'qwlm'), ('xkb', 'us'), ('xkb', 'ca')]
+org.gnome.desktop.input-sources per-window false
+org.gnome.desktop.input-sources show-all-sources false
+org.gnome.desktop.input-sources sources [('xkb', 'qwlm'), ('xkb', 'code'), ('xkb', 'us'), ('xkb', 'ca')]
+org.gnome.desktop.input-sources xkb-model 'pc105+inet'
+org.gnome.desktop.input-sources xkb-options @as []
+```
+
 ### Windows installation
 
 Simply run the installer. You can edit the klc file and recompile if you wish. You will need microsoft keyboad layout creator though.
+
+## XKB and libcommon guide
+
+Useful articles:
+
+- ()[]
 
 ## Et voilà!
 
