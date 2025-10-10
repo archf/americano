@@ -1,0 +1,95 @@
+// 2013-02-10 Félix Archambault, http://??????.com/ . Public domain.
+
+// # vim: ft=xkb
+
+// Groups: alternative sets of symbols available in a keymap, you can have
+// at most 4 of them for each keymap
+
+// default: Marks this as the default variant in the configuration file, for
+// use when no variant is specified. See section 3 There is a suspicion that
+// the default entry should be the first entry in a file.
+
+// partial: Indicates that this bit of configuration is only partial and
+// needs to be included into a more complete configuration.
+
+// alphanumeric_keys: Indicates a partial symbol map with alphanumeric keys.
+
+// modifier_keys: Indicates a partial symbol map with modifier keys.
+
+default alphanumeric_keys modifier_keys
+xkb_symbols "qwlm" {
+    name[Group1]= "americano-qwlm";
+
+    // Alphanumeric section
+    key <TLDE> { [   dead_grave,   asciitilde,      grave,        NoSymbol ] };
+    key <AE01> { [            1,       exclam,      exclamdown,      onesuperior ] };
+    key <AE02> { [            2,           at,       masculine,      twosuperior ] };
+    key <AE03> { [            3,   numbersign,     ordfeminine,    threesuperior ] };
+    key <AE04> { [            4,       dollar,            cent,         sterling ] };
+    key <AE05> { [            5,      percent,        EuroSign,              yen ] };
+    key <AE06> { [            6,  asciicircum,         hstroke,          Hstroke ] };
+    key <AE07> { [            7,    ampersand,             eth,              ETH ] };
+    key <AE08> { [            8,     asterisk,           thorn,            THORN ] };
+    key <AE09> { [            9,    parenleft,  leftsinglequotemark,  leftdoublequotemark ] };
+    key <AE10> { [            0,   parenright, rightsinglequotemark,  rightdoublequotemark ] };
+    key <AE11> { [        minus,   underscore,          endash,           emdash ] };
+    key <AE12> { [        equal,         plus,        multiply,         division ] };
+
+    key <AD01> { [            q,            Q,          aacute,           Aacute ] };
+    key <AD02> { [            w,            W,      NoSymbol,       NoSymbol ] };
+    key <AD03> { [            l,            L,           colon,       NoSymbol ] };
+    key <AD04> { [            m,            M,              mu,       NoSymbol ] };
+    key <AD05> { [            f,            F,      dead_acute,       NoSymbol ] };
+    key <AD06> { [            y,            Y,      udiaeresis,       Udiaeresis ] };
+    key <AD07> { [       eacute,        Eacute,      NoSymbol,       NoSymbol ] };
+    key <AD08> { [            i,            I,          iacute,           Iacute ] };
+    key <AD09> { [            o,            O,          oacute,           Oacute ] };
+    key <AD10> { [            k,            K,      NoSymbol,       NoSymbol ] };
+    key <AD11> { [  bracketleft,    braceleft,   guillemotleft,    NoSymbol ] };
+    key <AD12> { [ bracketright,   braceright,  guillemotright,    NoSymbol ] };
+    key <BKSL> { [    backslash,          bar,      NoSymbol,       NoSymbol ] };
+
+    key <AC01> { [            a,            A,          agrave,           Agrave ] };
+    key <AC02> { [            r,            R,       braceleft,       NoSymbol ] };
+    key <AC03> { [            s,            S,      braceright,       NoSymbol ] };
+    key <AC04> { [            t,            T,       semicolon,       NoSymbol ] };
+    key <AC05> { [            g,            G,  dead_diaeresis,       NoSymbol ] };
+    key <AC06> { [            h,            H,      NoSymbol,       NoSymbol ] };
+    key <AC07> { [            u,            U,          uacute,           Uacute ] };
+    key <AC08> { [            e,            E,          eacute,           Eacute ] };
+    key <AC09> { [            d,            D,      NoSymbol,       NoSymbol ] };
+    key <AC10> { [            p,            P,          oslash,         Ooblique ] };
+    key <AC11> { [   apostrophe,     quotedbl,      NoSymbol,       NoSymbol ] };
+
+    key <AB01> { [            z,            Z,      NoSymbol,       NoSymbol ] };
+    key <AB02> { [            x,            X,        Ccedilla,       NoSymbol ] };
+    key <AB03> { [            c,            C,        ccedilla,         Ccedilla ] };
+    key <AB04> { [            v,            V,  dead_circumflex,      NoSymbol ] };
+    key <AB05> { [            b,            B,  dead_diaeresis,       NoSymbol ] };
+    key <AB06> { [            n,            N,          ntilde,           Ntilde ] };
+    key <AB07> { [            j,            J,      NoSymbol,       NoSymbol ] };
+    key <AB08> { [        comma,         less,    dead_cedilla,       NoSymbol ] };
+    key <AB09> { [       period,      greater,   dead_abovedot,       NoSymbol ] };
+    key <AB10> { [        slash,     question,    questiondown,       NoSymbol ] };
+
+    // modifier_keys
+    key <LSGT> { [        minus,   underscore,          endash,           emdash ] };
+    key <SPCE> { [        space,        space,           space,     nobreakspace ] };
+    key <ESC>  { [     Caps_Lock,     Caps_Lock,     Caps_Lock,      Caps_Lock ] };
+    key <CAPS> { [     Control_L,     Control_L,     Control_L,      Control_L ] };
+    key <LCTL> { [        Escape,        Escape,        Escape,         Escape ] };
+
+    // The CapsLock key (while pressed) chooses the third shift level.
+    // key <CAPS> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
+
+    // key to choose 3rd level lv3:ralt_switch
+    // option "lv3:ralt_switch"
+    // include "level3(ralt_switch)"
+    key <RALT> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
+
+    //  Swap ESC and Caps Lock
+    // option "caps:swapescape"
+
+    // The CapsLock key (while pressed) chooses the third shift level.
+    // include "level3(caps_switch)"
+};

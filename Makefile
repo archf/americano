@@ -1,30 +1,24 @@
-XKBPATH = /usr/share/X11/xkb
-LAYOUTS = $(XKBPATH)/symbols/codes $(XKBPATH)/symbols/qwlms
+XKB_CONFIG_PATH = ~/.config/xkb
+LAYOUTS = $(XKBPATH)/symbols/codes $(XKBPATH)/symbols/qwlm
 
 .PHONY: install
 
-install: $(LAYOUTS)
-	@echo "backing up '$(XKBPATH)/rules/evdev.xml' to '$(XKBPATH)/rules/evdev.xml.$$(date +%Y%m%d)'"
-	/bin/cp $(XKBPATH)/rules/evdev.xml $(XKBPATH)/rules/evdev.xml.$(date +%Y%m%d)
-	@echo 'replacing $(XKBPATH)/rules/evdev.xml'
-	/usr/bin/install -o root -g root evdev.xml $(XKBPATH)/rules/evdev.xml
-	@apt install -y libxkbregistry-dev
-	@echo 'All done! Enjoy !!!'
+install: de-gnome ## Install layout(s) to ~/.config/xkb
+	@ln -sv $(CURDIR)/xkb $(XKB_CONFIG_PATH)
+	@echo 'Restart your shell for changes to be effective (logout/login)'
 
 # add it to your Desktop environment
 .PHONY: de-mate de-gnome
 
-de-mate:
+de-mate: ## Install layout in Mate desktop environment.
 	gsettings set org.mate.peripherals-keyboard-xkb.kbd layouts "['code', 'qwlm', 'us', 'ca']"
 
-de-gnome:
+de-gnome: ## Install layout in Gnome desktop environment.
 	gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'code'), ('xkb', 'qwlm'), ('xkb', 'us'), ('xkb', 'ca')]"
 
-$(LAYOUTS):
-	ln -s $(CURDIR)/$(@F) $@
-
+# TODO: ceck if we could replace `cp` with `install` on OSX
 .PHONY: osx
-osx:
+osx: ## Install layout and karabiner configuration in OSX desktop environment
 	mkdir -p ~/Library/KeyBindings/
 	cp osx/DefaultKeyBinding.Dict ~/Library/KeyBindings/DefaultKeyBinding.Dict
 	cp -r osx/karabiner ~/.config/

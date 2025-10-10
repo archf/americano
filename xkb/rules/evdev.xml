@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xkbConfigRegistry SYSTEM "xkb.dtd">
+<xkbConfigRegistry version="1.1">
+  <layoutList>
+    <layout>
+      <configItem>
+        <name>qwlm</name>
+        <shortDescription>am</shortDescription>
+        <description>americano-qwlm</description>
+        <languageList>
+          <iso639Id>eng</iso639Id>
+        </languageList>
+      </configItem>
+    </layout>
+    <layout>
+      <configItem>
+        <name>code</name>
+        <shortDescription>co</shortDescription>
+        <description>americano-code</description>
+        <languageList>
+          <iso639Id>eng</iso639Id>
+        </languageList>
+      </configItem>
+    </layout>
+  </layoutList>
+  <!-- <optionList> -->
+  <!--   <group allowMultipleSelection="true"> -->
+  <!--     <configItem> -->
+  <!--       <name>custom</name> -->
+  <!--       <description>custom options</description> -->
+  <!--     </configItem> -->
+  <!--     <option> -->
+  <!--       <configItem> -->
+  <!--         <name>custom:foo</name> -->
+  <!--         <description>This option does something great</description> -->
+  <!--       </configItem> -->
+  <!--     </option> -->
+  <!--   </group> -->
+  <!-- </optionList> -->
+</xkbConfigRegistry>
