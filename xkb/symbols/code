@@ -84,9 +84,10 @@ xkb_symbols "code" {
     // key <TAB>  { [        Tab,  ISO_Left_Tab,            Tab,         Multi_key ] }; // AltGr+Tab is Compose
     key <LSGT> { [        minus,   underscore,          endash,           emdash ] };
     key <SPCE> { [        space,        space,           space,     nobreakspace ] };
-    key <ESC>  { [     Caps_Lock,     Caps_Lock,     Caps_Lock,      Caps_Lock ] };
-    key <CAPS> { [     Control_L,     Control_L,     Control_L,      Control_L ] };
-    key <LCTL> { [        Escape,        Escape,        Escape,         Escape ] };
+
+    //key <ESC>  { [     Caps_Lock,     Caps_Lock,     Caps_Lock,      Caps_Lock ] };
+    //key <CAPS> { [     Control_L,     Control_L,     Control_L,      Control_L ] };
+    //key <LCTL> { [        Escape,        Escape,        Escape,         Escape ] };
 
     // option "lv3:ralt_alt"
     // key <RALT> {[  Alt_R,  Meta_R  ], type[group1]="TWO_LEVEL" };

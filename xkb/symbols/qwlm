@@ -75,9 +75,10 @@ xkb_symbols "qwlm" {
     // modifier_keys
     key <LSGT> { [        minus,   underscore,          endash,           emdash ] };
     key <SPCE> { [        space,        space,           space,     nobreakspace ] };
-    key <ESC>  { [     Caps_Lock,     Caps_Lock,     Caps_Lock,      Caps_Lock ] };
-    key <CAPS> { [     Control_L,     Control_L,     Control_L,      Control_L ] };
-    key <LCTL> { [        Escape,        Escape,        Escape,         Escape ] };
+
+    //key <ESC>  { [     Caps_Lock,     Caps_Lock,     Caps_Lock,      Caps_Lock ] };
+    //key <CAPS> { [     Control_L,     Control_L,     Control_L,      Control_L ] };
+    //key <LCTL> { [        Escape,        Escape,        Escape,         Escape ] };
 
     // The CapsLock key (while pressed) chooses the third shift level.
     // key <CAPS> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
