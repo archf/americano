@@ -1,6 +1,6 @@
-## The layout
+## The layout(s)
 
-### multilingual
+### americano-qwlm (multilingual)
 
 qwlmf yéik[]' <br/>
 arstg huep' <br/>
@@ -10,7 +10,7 @@ QLWMF YÉIKOK{} <br/>
 ARSTG HUPEDP" <br/>
 ZXCVB NJ,.? <br/>
 
-### english only (CODE)
+### americano-code
 
 qwlmf y:ik[]' <br/>
 arstg huep' <br/>
@@ -24,89 +24,39 @@ ZXCVB ÉJ,.? <br/>
 * no deadgrave
 
 ## Supported platforms
-* linux
-* windows
-
-## Supported platforms
 
 * linux
 * windows
-* OSX (using Ukelele app)
+* MacOS (using Ukelele app)
 
 ## Installation
 
-### Linux installation
+## Linux
 
-#### Automated method
+Run `make install`. This will install the layout in `~/.config/xkb` (symlinks)
 
-Run `make install`. This will overwrite the `/usr/shareX11/xkb/rules/evdev.xml`
-provided by your OS and/or any change you previously made to it.
+Then add keyboard to your Desktop Environment.
 
-Then you should be able to add keyboard to you Desktop Environment.
-
-For mate-desktop: `make de-mate`
 For gnome-desktop: `make de-gnome`
+For mate-desktop: `make de-mate`
 
-#### Install manually
+And restart your session or logout-login to make it available to your desktop
+environnement.
 
-You must add the keyboard layout in the  `/usr/share/X11/xkb/rules/evdev.xml`
+See `make help` for more.
 
-Open `/usr/share/X11/xkb/rules/evdev.xml` in your favorite editor.
+### MacOS
 
-Go to the end of the `<layoutList>` section (search for `</layoutList>`). Add the
-following after the last </layout> tag, where:
+Run `make osx`.
 
-layout_name is the file name of your keyboard layout in X11/xkb/symbols (in my case qwlm)
-small_description a suitable short name (in my case am)
-description an appropriate long name in one or more languages (in my case “americano-qwlm”)
-eng a legal three letter (ISO 639-2) language code (e.g. eng for English)
+This will:
+    - install the layout
+    - install DefaultKeyBinding.Dict config
+    - install karabiner configuration
 
-template:
-```xml
-       <layout>
-         <configItem>
-           <name> layout_name </name>
-           <shortDescription> small-description </shortDescription>
-           <description> description </description>
-           <languageList>
-              <iso639Id> eng </iso639Id>
-           </languageList>
-         </configItem>
-         <variantList/>
-       </layout>
-```
-
-which in our case gives:
-
-```xml
-    <layout>
-      <configItem>
-        <name>qwlm</name>
-        <shortDescription>am</shortDescription>
-        <description>americano-qwlm</description>
-        <languageList>
-          <iso639Id>eng</iso639Id>
-        </languageList>
-      </configItem>
-    </layout>
-```
-
-Quick commands
+## Gnome related configuration
 
 ```bash
-# edit the /usr/shareX11/xkb/rules/evdev.xml file
-sudo vim /usr/share/X11/xkb/rules/evdev.xml
-
-# add a symlink
-sudo ln -s ~/dotfiles/americano/qwlm /usr/share/X11/xkb/symbols/qwlm
-```
-
-You might need to restart your session (logout-login) to make it available to your desktop environnement.
-
-Gnome related configuration
-
-```bash
-
 > gsettings list-recursively org.gnome.desktop.input-sources
 org.gnome.desktop.input-sources current uint32 0
 org.gnome.desktop.input-sources mru-sources [('xkb', 'code'), ('xkb', 'qwlm'), ('xkb', 'us'), ('xkb', 'ca')]
@@ -119,9 +69,13 @@ org.gnome.desktop.input-sources xkb-options @as []
 
 ### Windows installation
 
-Simply run the installer. You can edit the klc file and recompile if you wish. You will need microsoft keyboad layout creator though.
+Simply run the installer. You can edit the klc file and recompile if you wish.
+You will need microsoft keyboad layout creator though.
 
 ## XKB and libcommon guide
+
+- NoSymbol → acts as a placeholder if you want to define a later symbol
+- VoidSymbol → like a /dev/null symbol : it produces no actions
 
 Useful articles:
 

@@ -5,7 +5,6 @@ help: ## Show this help menu.
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"; section = "default"} /^##@/ {n = asort(targets, sorted); for (i = 1; i <= n; i++) {target = sorted[i]; printf "\t\033[36m%-15s\033[0m %s\n", target, descriptions[target]}; section = substr($$0, 5); printf "\n\033[1m%s\033[0m\n", section; delete targets; delete descriptions; count = 0} /^[a-zA-Z_0-9-]+:.*?##/ {targets[count] = $$1; descriptions[$$1] = $$2; count++} END {n = asort(targets, sorted); for (i = 1; i <= n; i++) {target = sorted[i]; printf "\t\033[36m%-15s\033[0m %s\n", target, descriptions[target]}}' $(MAKEFILE_LIST)
 
 .PHONY: install
-
 install: de-gnome ## Install xkb layout(s) to ~/.config/xkb
 	@ln -sv $(CURDIR)/xkb $(XKB_CONFIG_PATH)
 	@echo 'Restart your shell for changes to be effective (logout/login)'
@@ -13,7 +12,7 @@ install: de-gnome ## Install xkb layout(s) to ~/.config/xkb
 # add it to your Desktop environment
 .PHONY: de-mate de-gnome
 
-de-mate: ## Install layout in Mate desktop environment.
+de-mate: ## Add layout to Mate desktop environment.
 	gsettings set org.mate.peripherals-keyboard-xkb.kbd layouts "['code', 'qwlm', 'us', 'ca']"
 
 # NOTE: When updating layout in Gnome remove and re-add it in the keyboard
@@ -22,13 +21,7 @@ de-mate: ## Install layout in Mate desktop environment.
 de-gnome: ## Install layout in Gnome desktop environment.
 	gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'code'), ('xkb', 'qwlm'), ('xkb', 'us'), ('xkb', 'ca')]"
 
-# Todo: check if we could replace `cp` with `install` on osx
-.PHONY: osx
-osx: ## install layout and karabiner configuration in osx desktop environment
-	mkdir -p ~/library/keybindings/
-	cp osx/defaultkeybinding.dict ~/library/keybindings/defaultkeybinding.dict
-	cp -r osx/karabiner ~/.config/
-	sudo rsync -r osx/americano.bundle ~/Library/Keyboard\ Layouts
+##@ Interception
 
 .PHONY: interception-deps
 interception-deps:
@@ -44,10 +37,36 @@ interception-dual-function-keys: interception-deps
 # FIXME: caps2esc breaks <C-BS> keymap somehow
 # https://gitlab.com/interception/linux/plugins/caps2esc/-/blob/master/caps2esc.c?ref_type=heads
 .PHONY: install-interception
-install-interception: interception-deps ## Install interception, caps2esc, ...
+install-interception: interception-deps ## Install interception and plugins: caps2esc, ...
 	sudo install interception/caps2esc.yaml /etc/interception/udevmon.yaml
 	sudo systemctl enable --now udevmon.service
 	sudo systemctl status udevmon.service
+
+##@ MacOS
+
+.PHONY: osx
+osx: karabiner ## Install layout and karabiner configuration in osx desktop environment.
+	mkdir -p ~/Library/KeyBindings
+	cp osx/DefaultKeyBinding.Dict ~/Library/KeyBindings/DefaultKeyBinding.Dict
+	sudo rsync -r osx/americano.bundle ~/Library/Keyboard\ Layouts
+	# cp osx/defaultkeybinding.dict ~/Library/keybindings/defaultkeybinding.dict
+
+# Karabiner-Elements will fail to detect configuration file changes and reload
+# the configuration if karabiner.json is a symbolic link
+# 	=> Ensure you create a symbolic link to the ~/.config/karabiner
+# NOTE: on installation of Karabiner, ~/.config/karabiner will exist
+.PHONY: karabiner
+karabiner: | ~/.config/karabiner.bak ~/.config/karabiner ## Install Karabiner configuration.
+
+~/.config/karabiner.bak:
+	@mv $(basename $@) $@
+
+~/.config/karabiner:
+	@ln -sf $(CURDIR)/osx/$(@F) $@
+
+# cp -r osx/karabiner ~/.config/
+# @mkdir -p ~/.config/karabiner/assets/complex_modifications
+# cp karabiner.d/* ~/.config/karabiner/assets/complex_modifications/
 
 # sudo install udevmon.yaml /etc/interception/udevmon.yaml
 # sudo install -D leftctrl.yaml /etc/interception/dual-function-keys/leftctrl.yaml
