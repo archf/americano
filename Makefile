@@ -49,7 +49,6 @@ osx: karabiner ## Install layout and karabiner configuration in osx desktop envi
 	mkdir -p ~/Library/KeyBindings
 	cp osx/DefaultKeyBinding.Dict ~/Library/KeyBindings/DefaultKeyBinding.Dict
 	sudo rsync -r osx/americano.bundle ~/Library/Keyboard\ Layouts
-	# cp osx/defaultkeybinding.dict ~/Library/keybindings/defaultkeybinding.dict
 
 # Karabiner-Elements will fail to detect configuration file changes and reload
 # the configuration if karabiner.json is a symbolic link
