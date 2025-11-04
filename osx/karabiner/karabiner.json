@@ -5,6 +5,26 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Control + Button1 to Command + Button1",
+                        "enabled": false,
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "modifiers": { "mandatory": ["control"] },
+                                    "pointing_button": "button1"
+                                },
+                                "to": [
+                                    {
+                                        "lazy": true,
+                                        "modifiers": ["command"],
+                                        "pointing_button": "button1"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Post escape if fn is pressed alone.",
                         "manipulators": [
                             {
@@ -19,15 +39,45 @@
                         ]
                     },
                     {
-                        "description": "Post escape if left_control is pressed alone.",
+                        "description": "[terminal] left_control to escape when pressed alone.",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.googlecode\\.iterm2$",
+                                            "^org\\.alacritty$",
+                                            "^com\\.apple\\.Terminal$"
+                                        ],
+                                        "file_paths": ["/usr/local/bin/nvim-qt"],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "left_control",
                                     "modifiers": { "optional": ["any"] }
                                 },
                                 "to": [{ "key_code": "left_control" }],
                                 "to_if_alone": [{ "key_code": "escape" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Right Command + Tab → Left Command + Tab [Switch Tabs using both hands]",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "tab",
+                                    "modifiers": { "mandatory": ["right_command"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "tab",
+                                        "lazy": true,
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
@@ -53,7 +103,7 @@
                         ]
                     },
                     {
-                        "description": "[MOD] right_command to left_control in iterm2|alacritty|terminal on Apple Internal Kehboard.",
+                        "description": "[MOD] right_command to left_control in iterm2|alacritty|terminal on Apple Internal Keyboard.",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -998,14 +1048,61 @@
                                 "from": {
                                     "modifiers": {
                                         "mandatory": ["left_control"],
-                                        "optional": ["caps_lock"]
+                                        "optional": ["any"]
                                     },
                                     "pointing_button": "button1"
                                 },
+                                "to": {
+                                    "lazy": true,
+                                    "modifiers": ["command"],
+                                    "pointing_button": "button1"
+                                },
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[NOOP] control + command + {left,right}_arrow (avoid control to command remap)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "left_arrow",
+                                    "modifiers": { "mandatory": ["command", "control"] }
+                                },
                                 "to": [
-                                    { "pointing_button": "button1" },
-                                    { "key_code": "left_command" }
+                                    {
+                                        "key_code": "left_arrow",
+                                        "modifiers": ["command", "control"]
+                                    }
                                 ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "right_arrow",
+                                    "modifiers": { "mandatory": ["command", "control"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_arrow",
+                                        "modifiers": ["command", "control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[ALL] left_control to escape when pressed alone.",
+                        "enabled": false,
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "left_control",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "left_control" }],
+                                "to_if_alone": [{ "key_code": "escape" }],
                                 "type": "basic"
                             }
                         ]
@@ -1029,21 +1126,64 @@
                                 ],
                                 "from": {
                                     "key_code": "left_control",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["shift", "option", "fn"] }
                                 },
-                                "to": [
-                                    {
-                                        "key_code": "left_command",
-                                        "lazy": true
-                                    }
-                                ],
+                                "to": [{ "key_code": "left_command" }],
                                 "to_if_alone": [{ "key_code": "escape" }],
                                 "type": "basic"
                             }
                         ]
                     },
                     {
+                        "description": "[Slack] Fix Home and End key",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.tinyspeck\\.slackmacgap$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "end",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "k",
+                                        "modifiers": ["left_control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.tinyspeck\\.slackmacgap$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "home",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "a",
+                                        "modifiers": ["left_control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Ctrl + Left Click to Left Click (fix right click; use a 2 buttons mouse)",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -1541,6 +1681,32 @@
                                 "type": "basic"
                             }
                         ]
+                    },
+                    {
+                        "description": "[Finder] Delete key as 'Move to Trash'",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com.apple.finder"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "delete_forward",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "delete_or_backspace",
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
                     }
                 ]
             },
@@ -1576,8 +1742,7 @@
                         "product_id": 49257,
                         "vendor_id": 1133
                     },
-                    "ignore": false,
-                    "ignore_vendor_events": true
+                    "ignore": false
                 },
                 {
                     "identifiers": {
@@ -1630,7 +1795,7 @@
                 },
                 {
                     "from": { "key_code": "left_control" },
-                    "to": [{ "key_code": "left_control" }]
+                    "to": [{ "key_code": "escape" }]
                 }
             ],
             "virtual_hid_keyboard": {
