@@ -26,6 +26,7 @@
                     },
                     {
                         "description": "Post escape if fn is pressed alone.",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -33,31 +34,6 @@
                                     "modifiers": { "optional": ["any"] }
                                 },
                                 "to": [{ "key_code": "fn" }],
-                                "to_if_alone": [{ "key_code": "escape" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "[terminal] left_control to escape when pressed alone.",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.googlecode\\.iterm2$",
-                                            "^org\\.alacritty$",
-                                            "^com\\.apple\\.Terminal$"
-                                        ],
-                                        "file_paths": ["/usr/local/bin/nvim-qt"],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "left_control",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [{ "key_code": "left_control" }],
                                 "to_if_alone": [{ "key_code": "escape" }],
                                 "type": "basic"
                             }
@@ -74,7 +50,6 @@
                                 "to": [
                                     {
                                         "key_code": "tab",
-                                        "lazy": true,
                                         "modifiers": ["left_command"]
                                     }
                                 ],
@@ -91,12 +66,7 @@
                                     "modifiers": { "optional": ["any"] }
                                 },
                                 "parameters": { "basic.to_if_alone_timeout_milliseconds": 500 },
-                                "to": [
-                                    {
-                                        "key_code": "left_command",
-                                        "lazy": true
-                                    }
-                                ],
+                                "to": [{ "key_code": "left_command" }],
                                 "to_if_alone": [{ "key_code": "mission_control" }],
                                 "type": "basic"
                             }
@@ -1063,6 +1033,7 @@
                     },
                     {
                         "description": "[NOOP] control + command + {left,right}_arrow (avoid control to command remap)",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -1129,6 +1100,20 @@
                                     "modifiers": { "optional": ["shift", "option", "fn"] }
                                 },
                                 "to": [{ "key_code": "left_command" }],
+                                "to_if_alone": [{ "key_code": "escape" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[terminal] left_control to escape when pressed alone.",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "left_control",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "left_control" }],
                                 "to_if_alone": [{ "key_code": "escape" }],
                                 "type": "basic"
                             }
