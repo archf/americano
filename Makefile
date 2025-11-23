@@ -23,21 +23,39 @@ de-gnome: ## Install layout in Gnome desktop environment.
 
 ##@ Interception
 
+# FIXME: this PPA is not supported on Noble+
+# https://ppa.launchpadcontent.net/deafmute/interception/ubuntu/dists/
 .PHONY: interception-deps
 interception-deps:
-	sudo add-apt-repository ppa:deafmute/interception
-	sudo apt install interception-tools interception-caps2esc
-	# sudo apt install cmake libevdev-dev libudev-dev libyaml-cpp-dev libboost-dev
+		# sudo apt install cmake libevdev-dev libudev-dev libyaml-cpp-dev libboost-dev
+		# sudo add-apt-repository ppa:deafmute/interception
+		sudo sed --in-place -E 's/(Suites:).*/\1 devel/'	 /etc/apt/sources.list.d/deafmute-ubuntu-interception-noble.sources
+		sudo apt install interception-tools interception-caps2esc
 
 .PHONY: interception-dual-function-keys
 interception-dual-function-keys: interception-deps
-	git clone --detph 1 https://gitlab.com/interception/linux/plugins/dual-function-keys.git
+	if test ! -d interception/dual-function-keys ]; then \
+		git clone --detph 1 https://gitlab.com/interception/linux/plugins/dual-function-keys.git interception/dual-function-keys \
+	else \
+		cd interception/dual-function-keys && git pull; \
+	fi
 	cd interception/dual-function-keys \; make && sudo make install
+
+.PHONY: interception-space2meta
+	# https://gitlab.com/interception/linux/plugins/space2meta
+interception-space2meta: interception-deps
+	if test ! -d interception/space2meta; then \
+		git clone --depth 1 https://gitlab.com/interception/linux/plugins/space2meta.git interception/space2meta \
+	else \
+		cd interception/space2meta && git pull; \
+	fi
+	cd interception/space2meta \; cmake -Bbuild && cmake --build build && \
+	sudo install build/space2meta /usr/local/bin/space2meta
 
 # FIXME: caps2esc breaks <C-BS> keymap somehow
 # https://gitlab.com/interception/linux/plugins/caps2esc/-/blob/master/caps2esc.c?ref_type=heads
 .PHONY: install-interception
-install-interception: interception-deps ## Install interception and plugins: caps2esc, ...
+install-interception: interception-deps interception-space2meta ## Install interception and plugins: caps2esc, ...
 	sudo install interception/caps2esc.yaml /etc/interception/udevmon.yaml
 	sudo systemctl enable --now udevmon.service
 	sudo systemctl status udevmon.service
@@ -52,7 +70,7 @@ osx: karabiner ## Install layout and karabiner configuration in osx desktop envi
 
 # Karabiner-Elements will fail to detect configuration file changes and reload
 # the configuration if karabiner.json is a symbolic link
-# 	=> Ensure you create a symbolic link to the ~/.config/karabiner
+#		=> Ensure you create a symbolic link to the ~/.config/karabiner
 # NOTE: on installation of Karabiner, ~/.config/karabiner will exist
 .PHONY: karabiner
 karabiner: | ~/.config/karabiner.bak ~/.config/karabiner ## Install Karabiner configuration.
@@ -73,5 +91,5 @@ karabiner: | ~/.config/karabiner.bak ~/.config/karabiner ## Install Karabiner co
 # sudo install mouse.yaml /etc/interception/mouse.yaml
 # sudo install hybrid-keyboard.yaml /etc/interception/hybrid-keyboard.yaml
 # Generate device for a hybrid configuration
-# s uinput -p -d  /dev/input/by-path/platform-i8042-serio-0-event-kbd| tee keyboard.yaml
-# s uinput -p -d  /dev/input/by-path/platform-i8042-serio-1-event-mouse | tee mouse.yaml
+# s uinput -p -d	/dev/input/by-path/platform-i8042-serio-0-event-kbd| tee keyboard.yaml
+# s uinput -p -d	/dev/input/by-path/platform-i8042-serio-1-event-mouse | tee mouse.yaml

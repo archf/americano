@@ -1,5 +1,5 @@
-- JOB: interception -g $DEVNODE | caps2esc | uinput -d $DEVNODE
+- JOB: interception -g $DEVNODE | caps2esc | space2meta | uinput -d $DEVNODE
   DEVICE:
     EVENTS:
-      EV_KEY: [[KEY_CAPSLOCK, KEY_ESC]]
+      EV_KEY: [[KEY_CAPSLOCK, KEY_ESC, KEY_SPACE]]
     # LINK: .*-event-kbd
