@@ -68,6 +68,10 @@ osx: karabiner ## Install layout and karabiner configuration in osx desktop envi
 	cp osx/DefaultKeyBinding.Dict ~/Library/KeyBindings/DefaultKeyBinding.Dict
 	sudo rsync -r osx/americano.bundle ~/Library/Keyboard\ Layouts
 
+.PHONY: hammerspoon
+hammerspoon:
+	ln -sf $(CURDIR)/osx/hammerspoon/ ~/.hammerspoon
+
 # Karabiner-Elements will fail to detect configuration file changes and reload
 # the configuration if karabiner.json is a symbolic link
 #		=> Ensure you create a symbolic link to the ~/.config/karabiner
