@@ -17,7 +17,7 @@ hs.alert.show("Hammerspoon config loaded")
 -- if you want to use a different keyboard combo, define it here.
 -- local hyper = {"cmd", "alt"}
 -- Remove ctrl to avoid triggering ctrl+w in neovim
-local hyper = { "cmd", "alt", "ctrl", "shift" }
+local hyper = { "cmd", "alt" }
 
 -- I: Internet, IRC
 -- M: Mail, Messages, Music
@@ -43,7 +43,7 @@ local hyper = { "cmd", "alt", "ctrl", "shift" }
 --  - [J] Rhythmbox | VLC  [Music | Jukebox  ]
 --  - [V] Zoom | or other videcocall app
 --  - [I] Firefox [Internet  Browser]
---  - [G] Gitk | Gitx [Git log viewer] - maybe not useful enough
+--  - [ ] Gitk | Gitx [Git log viewer] - maybe not useful enough
 --  - [B] Calibre  [books]
 --
 --
@@ -58,19 +58,19 @@ local hyper = { "cmd", "alt", "ctrl", "shift" }
 --
 -- define your own shortcut list here
 local windows = {
-  J = "VLC",       -- Rhythmbox
-  A = "VLC",       -- Audio
-  G = "Google Chrome",
-  T = "Alacritty", -- Terminal
-  C = "Calculator",
-  L = "Finder",
-  I = "Firefox",
-  M = "Messages", --
+  J = "VLC",           -- [J]ukebox
+  A = "VLC",           -- [A]udio
+  -- M = "Messages", --
+  C = "Calculator",    -- [C]alculator
+  E = "Gmail",         -- [E]mail
+  G = "Google Chrome", -- [G]oogle Chrome
+  I = "Firefox",       -- [I]nternet
+  L = "Finder",        -- ls
+  P = "QtPass",        --[P]Assword
   S = "Slack",
-  P = "QtPass",
-  V = "Zoom", -- VideoCall
-  E = "Gmail",
-  Z = "Zoom",
+  T = "Alacritty",     -- Terminal
+  V = "Zoom",          -- VideoCall
+  O = "Settings",      -- Options // Settings
   Z = "Zoom",
   -- ['\\'] = "Hammerspoon", -- opens the Hammerspoon console. useful
 }
@@ -87,8 +87,7 @@ local lastKey = ''
 local lastKeyTime = 0
 local lastWindowIndex = 1
 local appWindows = nil
-local doubleKeyThreshold = .8
-
+local doubleKeyThreshold = 1.2
 -- set up the binding for each key combo
 for key, appName in pairs(windows) do
   hs.hotkey.bind(hyper, key, function()
@@ -109,7 +108,7 @@ for key, appName in pairs(windows) do
         -- increment and loop
         lastWindowIndex = lastWindowIndex % #appWindows + 1
 
-        --cycle apps
+        -- focus the window (will switch to its space)
         appWindows[lastWindowIndex]:focus()
       end
     else
@@ -119,7 +118,16 @@ for key, appName in pairs(windows) do
 
       local app = hs.application.get(appName)
       if app then
-        app:activate(true)
+        -- get the main window and focus it (will switch to its space)
+        -- This allows effectively switching back to the previous space. If
+        -- not, it would go only focus the window appname on the single
+        -- space 2nd monitor
+        local mainWindow = app:mainWindow()
+        if mainWindow then
+          mainWindow:focus()
+        else
+          app:activate(false)
+        end
       else
         local launchName = windowLaunchNames[key] or appName
         hs.application.launchOrFocus(launchName)
@@ -130,3 +138,17 @@ for key, appName in pairs(windows) do
     lastKeyTime = keyTime
   end)
 end
+
+-- Bind hyper+q to close the current window/app
+hs.hotkey.bind(hyper, "q", function()
+  local win = hs.window.focusedWindow()
+  if win then
+    local app = win:application()
+    if app then
+      -- Close the window
+      win:close()
+      -- Alternative: Quit the entire application instead
+      -- app:kill()
+    end
+  end
+end)
