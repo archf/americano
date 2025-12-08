@@ -5,12 +5,698 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Space2Hyper - All Letters and Digits",
+                        "description": "Space2Hyper (Robust / Lazy)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "spacebar",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 150,
+                                    "basic.to_if_held_down_threshold_milliseconds": 200
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_option",
+                                        "lazy": true,
+                                        "modifiers": ["right_command"]
+                                    }
+                                ],
+                                "to_if_alone": [{ "key_code": "spacebar" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Space2Hyper - All Letters and Digits [delayed]",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": { "key_code": "spacebar" },
                                 "parameters": {
-                                    "basic.to_if_alone_timeout_milliseconds": 175,
+                                    "basic.to_delayed_action_delay_milliseconds": 1000,
+                                    "basic.to_if_alone_timeout_milliseconds": 150,
+                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                },
+                                "to": [{ "key_code": "spacebar" }],
+                                "to_after_key_up": [
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_mode",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper_mode",
+                                            "value": 1
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "a" },
+                                "to": [
+                                    {
+                                        "key_code": "a",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "b" },
+                                "to": [
+                                    {
+                                        "key_code": "b",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "c" },
+                                "to": [
+                                    {
+                                        "key_code": "c",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "d" },
+                                "to": [
+                                    {
+                                        "key_code": "d",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "e" },
+                                "to": [
+                                    {
+                                        "key_code": "e",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "f" },
+                                "to": [
+                                    {
+                                        "key_code": "f",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "g" },
+                                "to": [
+                                    {
+                                        "key_code": "g",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "h" },
+                                "to": [
+                                    {
+                                        "key_code": "h",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "i" },
+                                "to": [
+                                    {
+                                        "key_code": "i",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "j" },
+                                "to": [
+                                    {
+                                        "key_code": "j",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "k" },
+                                "to": [
+                                    {
+                                        "key_code": "k",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "l" },
+                                "to": [
+                                    {
+                                        "key_code": "l",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "m" },
+                                "to": [
+                                    {
+                                        "key_code": "m",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "n" },
+                                "to": [
+                                    {
+                                        "key_code": "n",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "o" },
+                                "to": [
+                                    {
+                                        "key_code": "o",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "p" },
+                                "to": [
+                                    {
+                                        "key_code": "p",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "q" },
+                                "to": [
+                                    {
+                                        "key_code": "q",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "r" },
+                                "to": [
+                                    {
+                                        "key_code": "r",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "s" },
+                                "to": [
+                                    {
+                                        "key_code": "s",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "t" },
+                                "to": [
+                                    {
+                                        "key_code": "t",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "u" },
+                                "to": [
+                                    {
+                                        "key_code": "u",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "v" },
+                                "to": [
+                                    {
+                                        "key_code": "v",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "w" },
+                                "to": [
+                                    {
+                                        "key_code": "w",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "x" },
+                                "to": [
+                                    {
+                                        "key_code": "x",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "y" },
+                                "to": [
+                                    {
+                                        "key_code": "y",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "z" },
+                                "to": [
+                                    {
+                                        "key_code": "z",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "semicolon" },
+                                "to": [
+                                    {
+                                        "key_code": "semicolon",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "1" },
+                                "to": [
+                                    {
+                                        "key_code": "1",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "2" },
+                                "to": [
+                                    {
+                                        "key_code": "2",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "3" },
+                                "to": [
+                                    {
+                                        "key_code": "3",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "4" },
+                                "to": [
+                                    {
+                                        "key_code": "4",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "5" },
+                                "to": [
+                                    {
+                                        "key_code": "5",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "6" },
+                                "to": [
+                                    {
+                                        "key_code": "6",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "7" },
+                                "to": [
+                                    {
+                                        "key_code": "7",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "8" },
+                                "to": [
+                                    {
+                                        "key_code": "8",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "9" },
+                                "to": [
+                                    {
+                                        "key_code": "9",
+                                        "modifiers": ["right_command", "right_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "tab" },
+                                "to": [
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": ["right_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Space2Hyper - All Letters and Digits",
+                        "enabled": false,
+                        "manipulators": [
+                            {
+                                "from": { "key_code": "spacebar" },
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 130,
                                     "basic.to_if_held_down_threshold_milliseconds": 500
                                 },
                                 "to": [
@@ -482,23 +1168,6 @@
                                         "value": 1
                                     }
                                 ],
-                                "from": { "key_code": "z" },
-                                "to": [
-                                    {
-                                        "key_code": "z",
-                                        "modifiers": ["right_command", "right_option"]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "hyper_mode",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
                                 "from": { "key_code": "semicolon" },
                                 "to": [
                                     {
@@ -660,6 +1329,61 @@
                                     }
                                 ],
                                 "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "key_code": "tab" },
+                                "to": [
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": ["right_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Space2Hyper - Space == caps_lock alternate",
+                        "enabled": false,
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "caps_lock",
+                                    "modifiers": { "optional": ["shift"] }
+                                },
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 175,
+                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_command",
+                                        "lazy": true,
+                                        "modifiers": ["right_option"]
+                                    }
+                                ],
+                                "to_if_alone": [{ "key_code": "spacebar" }],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "caps_lock",
+                                    "modifiers": { "mandatory": ["left_command"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
+                                "type": "basic"
                             }
                         ]
                     },
@@ -765,7 +1489,7 @@
                         ]
                     },
                     {
-                        "description": "[MOD] right_command to control with pgUp/pgdown/arrows/tab (for Mac keyboard).",
+                        "description": "[MOD] right_command to control with pgUp/pgdown/arrows/tab (for Mac keyboard). [to fix?]",
                         "manipulators": [
                             {
                                 "from": {
@@ -1779,6 +2503,237 @@
                         ]
                     },
                     {
+                        "description": "Use [Option + Number] to [cmd + Number] Switch Tabs in Chrome & Firefox",
+                        "enabled": false,
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com.google.Chrome",
+                                            "^org.mozilla.firefox"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "1",
+                                    "modifiers": {
+                                        "mandatory": ["option"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "1",
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com.google.Chrome",
+                                            "^org.mozilla.firefox"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "2",
+                                    "modifiers": {
+                                        "mandatory": ["option"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "2",
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com.google.Chrome",
+                                            "^org.mozilla.firefox"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "3",
+                                    "modifiers": {
+                                        "mandatory": ["option"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "3",
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com.google.Chrome",
+                                            "^org.mozilla.firefox"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "4",
+                                    "modifiers": {
+                                        "mandatory": ["option"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "4",
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com.google.Chrome",
+                                            "^org.mozilla.firefox"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "5",
+                                    "modifiers": {
+                                        "mandatory": ["option"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "5",
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com.google.Chrome",
+                                            "^org.mozilla.firefox"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "6",
+                                    "modifiers": {
+                                        "mandatory": ["option"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "6",
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com.google.Chrome",
+                                            "^org.mozilla.firefox"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "7",
+                                    "modifiers": {
+                                        "mandatory": ["option"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "7",
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com.google.Chrome",
+                                            "^org.mozilla.firefox"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "8",
+                                    "modifiers": {
+                                        "mandatory": ["option"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "8",
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com.google.Chrome",
+                                            "^org.mozilla.firefox"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "9",
+                                    "modifiers": {
+                                        "mandatory": ["option"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "9",
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "[Slack] Fix Home and End key",
                         "manipulators": [
                             {
@@ -1826,35 +2781,13 @@
                         ]
                     },
                     {
-                        "description": "Ctrl + Left Click to Left Click (fix right click; use a 2 buttons mouse)",
-                        "enabled": false,
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "modifiers": {
-                                        "mandatory": ["left_control"],
-                                        "optional": ["caps_lock"]
-                                    },
-                                    "pointing_button": "button1"
-                                },
-                                "to": [
-                                    { "pointing_button": "button1" },
-                                    { "key_code": "left_control" }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Use Option + Number to Switch Tabs in Chrome, Brave & Firefox",
-                        "enabled": false,
+                        "description": "Use [Option + Number] to [cmd + Number] Switch Tabs in Chrome & Firefox",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
                                             "^com.google.Chrome",
-                                            "^com.brave.Browser",
                                             "^org.mozilla.firefox"
                                         ],
                                         "type": "frontmost_application_if"
@@ -1862,10 +2795,7 @@
                                 ],
                                 "from": {
                                     "key_code": "1",
-                                    "modifiers": {
-                                        "mandatory": ["option"],
-                                        "optional": ["any"]
-                                    }
+                                    "modifiers": { "mandatory": ["option"] }
                                 },
                                 "to": [
                                     {
@@ -1880,7 +2810,6 @@
                                     {
                                         "bundle_identifiers": [
                                             "^com.google.Chrome",
-                                            "^com.brave.Browser",
                                             "^org.mozilla.firefox"
                                         ],
                                         "type": "frontmost_application_if"
@@ -1888,15 +2817,12 @@
                                 ],
                                 "from": {
                                     "key_code": "2",
-                                    "modifiers": {
-                                        "mandatory": ["option"],
-                                        "optional": ["any"]
-                                    }
+                                    "modifiers": { "mandatory": ["option"] }
                                 },
                                 "to": [
                                     {
                                         "key_code": "2",
-                                        "modifiers": ["option"]
+                                        "modifiers": ["left_command"]
                                     }
                                 ],
                                 "type": "basic"
@@ -1906,7 +2832,6 @@
                                     {
                                         "bundle_identifiers": [
                                             "^com.google.Chrome",
-                                            "^com.brave.Browser",
                                             "^org.mozilla.firefox"
                                         ],
                                         "type": "frontmost_application_if"
@@ -1914,10 +2839,7 @@
                                 ],
                                 "from": {
                                     "key_code": "3",
-                                    "modifiers": {
-                                        "mandatory": ["option"],
-                                        "optional": ["any"]
-                                    }
+                                    "modifiers": { "mandatory": ["option"] }
                                 },
                                 "to": [
                                     {
@@ -1932,7 +2854,6 @@
                                     {
                                         "bundle_identifiers": [
                                             "^com.google.Chrome",
-                                            "^com.brave.Browser",
                                             "^org.mozilla.firefox"
                                         ],
                                         "type": "frontmost_application_if"
@@ -1940,10 +2861,7 @@
                                 ],
                                 "from": {
                                     "key_code": "4",
-                                    "modifiers": {
-                                        "mandatory": ["option"],
-                                        "optional": ["any"]
-                                    }
+                                    "modifiers": { "mandatory": ["option"] }
                                 },
                                 "to": [
                                     {
@@ -1958,7 +2876,6 @@
                                     {
                                         "bundle_identifiers": [
                                             "^com.google.Chrome",
-                                            "^com.brave.Browser",
                                             "^org.mozilla.firefox"
                                         ],
                                         "type": "frontmost_application_if"
@@ -1966,10 +2883,7 @@
                                 ],
                                 "from": {
                                     "key_code": "5",
-                                    "modifiers": {
-                                        "mandatory": ["option"],
-                                        "optional": ["any"]
-                                    }
+                                    "modifiers": { "mandatory": ["option"] }
                                 },
                                 "to": [
                                     {
@@ -1984,8 +2898,6 @@
                                     {
                                         "bundle_identifiers": [
                                             "^com.google.Chrome",
-                                            "^com.brave.Browser",
-                                            "^com.brave.Browser",
                                             "^org.mozilla.firefox"
                                         ],
                                         "type": "frontmost_application_if"
@@ -1993,10 +2905,7 @@
                                 ],
                                 "from": {
                                     "key_code": "6",
-                                    "modifiers": {
-                                        "mandatory": ["option"],
-                                        "optional": ["any"]
-                                    }
+                                    "modifiers": { "mandatory": ["option"] }
                                 },
                                 "to": [
                                     {
@@ -2011,7 +2920,6 @@
                                     {
                                         "bundle_identifiers": [
                                             "^com.google.Chrome",
-                                            "^com.brave.Browser",
                                             "^org.mozilla.firefox"
                                         ],
                                         "type": "frontmost_application_if"
@@ -2019,10 +2927,7 @@
                                 ],
                                 "from": {
                                     "key_code": "7",
-                                    "modifiers": {
-                                        "mandatory": ["option"],
-                                        "optional": ["any"]
-                                    }
+                                    "modifiers": { "mandatory": ["option"] }
                                 },
                                 "to": [
                                     {
@@ -2037,7 +2942,6 @@
                                     {
                                         "bundle_identifiers": [
                                             "^com.google.Chrome",
-                                            "^com.brave.Browser",
                                             "^org.mozilla.firefox"
                                         ],
                                         "type": "frontmost_application_if"
@@ -2045,10 +2949,7 @@
                                 ],
                                 "from": {
                                     "key_code": "8",
-                                    "modifiers": {
-                                        "mandatory": ["option"],
-                                        "optional": ["any"]
-                                    }
+                                    "modifiers": { "mandatory": ["option"] }
                                 },
                                 "to": [
                                     {
@@ -2063,7 +2964,6 @@
                                     {
                                         "bundle_identifiers": [
                                             "^com.google.Chrome",
-                                            "^com.brave.Browser",
                                             "^org.mozilla.firefox"
                                         ],
                                         "type": "frontmost_application_if"
@@ -2071,10 +2971,7 @@
                                 ],
                                 "from": {
                                     "key_code": "9",
-                                    "modifiers": {
-                                        "mandatory": ["option"],
-                                        "optional": ["any"]
-                                    }
+                                    "modifiers": { "mandatory": ["option"] }
                                 },
                                 "to": [
                                     {
@@ -2087,7 +2984,34 @@
                         ]
                     },
                     {
+                        "description": "[Finder] Delete key as 'Move to Trash'",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com.apple.finder"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "delete_forward",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "delete_or_backspace",
+                                        "modifiers": ["left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Option + Number to control + number in Chrome, Brave & Firefox",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "conditions": [
@@ -2327,30 +3251,53 @@
                         ]
                     },
                     {
-                        "description": "[Finder] Delete key as 'Move to Trash'",
+                        "description": "Ctrl + Left Click to Left Click (fix right click; use a 2 buttons mouse)",
+                        "enabled": false,
                         "manipulators": [
                             {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com.apple.finder"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
                                 "from": {
-                                    "key_code": "delete_forward",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": {
+                                        "mandatory": ["left_control"],
+                                        "optional": ["caps_lock"]
+                                    },
+                                    "pointing_button": "button1"
                                 },
                                 "to": [
-                                    {
-                                        "key_code": "delete_or_backspace",
-                                        "modifiers": ["left_command"]
-                                    }
+                                    { "pointing_button": "button1" },
+                                    { "key_code": "left_control" }
                                 ],
                                 "type": "basic"
                             }
                         ]
+                    },
+                    {
+                        "description": "Change right_shift + left_shift to caps_lock",
+                        "enabled": false,
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "left_shift",
+                                    "modifiers": {
+                                        "mandatory": ["right_shift"],
+                                        "optional": ["caps_lock"]
+                                    }
+                                },
+                                "to": [{ "key_code": "caps_lock" }],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "right_shift",
+                                    "modifiers": {
+                                        "mandatory": ["left_shift"],
+                                        "optional": ["caps_lock"]
+                                    }
+                                },
+                                "to": [{ "key_code": "caps_lock" }],
+                                "type": "basic"
+                            }
+                        ],
+                        "title": "Change right_shift + left_shift to caps_lock"
                     }
                 ]
             },

@@ -65,13 +65,14 @@ local windows = {
   E = "Gmail",         -- [E]mail
   G = "Google Chrome", -- [G]oogle Chrome
   I = "Firefox",       -- [I]nternet
-  L = "Finder",        -- ls
-  P = "QtPass",        --[P]Assword
-  S = "Slack",
+  L = "Finder",        -- [l]s
+  P = "QtPass",        -- [P]Assword
+  S = "Slack",         -- [S]lack
   T = "Alacritty",     -- Terminal
   V = "Zoom",          -- VideoCall
   O = "Settings",      -- Options // Settings
   Z = "Zoom",
+  K = "Karabiner-Elements",
   -- ['\\'] = "Hammerspoon", -- opens the Hammerspoon console. useful
 }
 
@@ -122,12 +123,14 @@ for key, appName in pairs(windows) do
         -- This allows effectively switching back to the previous space. If
         -- not, it would go only focus the window appname on the single
         -- space 2nd monitor
-        local mainWindow = app:mainWindow()
-        if mainWindow then
-          mainWindow:focus()
-        else
-          app:activate(false)
-        end
+        app:activate(false)
+
+        -- local mainWindow = app:mainWindow()
+        -- if mainWindow then
+        --   mainWindow:focus()
+        -- else
+        --   app:activate(false)
+        -- end
       else
         local launchName = windowLaunchNames[key] or appName
         hs.application.launchOrFocus(launchName)
@@ -152,3 +155,37 @@ hs.hotkey.bind(hyper, "q", function()
     end
   end
 end)
+
+-- hs.hotkey.bind(hyper, "f", function()
+--   local win = hs.window.focusedWindow()
+--   if win then
+--     -- Toggles the window between zoomed/maximized state and original size
+--     win:toggleFullScreen()
+--   end
+-- end
+-- )
+-- -- -- Load the MouseFollowsFocus Spoon
+-- -- hs.loadSpoon("MouseFollowsFocus")
+-- -- -- Start the Spoon
+-- -- spoon.MouseFollowsFocus:start()
+
+-- -- Optional: Define a hotkey to quickly stop/start the feature
+-- hs.hotkey.bind({"cmd", "alt", "ctrl"}, "z", function()
+--     if spoon.MouseFollowsFocus:isRunning() then
+--         spoon.MouseFollowsFocus:stop()
+--         hs.notify.show("MouseFollowsFocus", "Status", "Stopped")
+--     else
+--         spoon.MouseFollowsFocus:start()
+--         hs.notify.show("MouseFollowsFocus", "Status", "Started")
+--     end
+-- end)
+
+-- -- Load Hammerspoon Spoon installer
+-- hs.loadSpoon("SpoonInstall")
+-- -- Install and configure MouseFollowsFocus
+-- spoon.SpoonInstall:andUse("MouseFollowsFocus", {
+--     start = true,
+--     config = {
+--         followMouse = true
+--     }
+-- })
