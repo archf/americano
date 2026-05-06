@@ -123,14 +123,15 @@ for key, appName in pairs(windows) do
         -- This allows effectively switching back to the previous space. If
         -- not, it would go only focus the window appname on the single
         -- space 2nd monitor
-        app:activate(false)
+        -- app:activate(false)
 
-        -- local mainWindow = app:mainWindow()
-        -- if mainWindow then
-        --   mainWindow:focus()
-        -- else
-        --   app:activate(false)
-        -- end
+        local mainWindow = app:mainWindow()
+        if mainWindow then
+          mainWindow:focus()
+        else
+          app:activate(false)
+        end
+
       else
         local launchName = windowLaunchNames[key] or appName
         hs.application.launchOrFocus(launchName)
