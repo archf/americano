@@ -1863,7 +1863,8 @@
                         ]
                     },
                     {
-                        "description": "[Paste] Left Shift alone to Ctrl+Shift+V in Alacritty, CMD+V elsewhere",
+                        "description": "[Paste] Left control alone to Ctrl+Shift+V in Alacritty, CMD+V elsewhere",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "conditions": [
@@ -1875,12 +1876,12 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "left_shift",
+                                    "key_code": "left_control",
                                     "modifiers": { "optional": ["any"] }
                                 },
                                 "to": [
                                     {
-                                        "key_code": "left_shift",
+                                        "key_code": "left_control",
                                         "lazy": true
                                     }
                                 ],
@@ -1902,12 +1903,12 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "left_shift",
+                                    "key_code": "left_control",
                                     "modifiers": { "optional": ["any"] }
                                 },
                                 "to": [
                                     {
-                                        "key_code": "left_shift",
+                                        "key_code": "left_control",
                                         "lazy": true
                                     }
                                 ],
@@ -2028,12 +2029,12 @@
                                 "type": "basic"
                             },
                             {
-                                "from": { "key_code": "tab" },
+                                "from": { "key_code": "grave_accent_and_tilde" },
                                 "parameters": {
                                     "basic.to_if_alone_timeout_milliseconds": 175,
                                     "basic.to_if_held_down_threshold_milliseconds": 300
                                 },
-                                "to_if_alone": [{ "key_code": "tab" }],
+                                "to_if_alone": [{ "key_code": "grave_accent_and_tilde" }],
                                 "to_if_held_down": [
                                     {
                                         "key_code": "f15",
@@ -2712,7 +2713,7 @@
                 },
                 {
                     "from": { "key_code": "left_control" },
-                    "to": [{ "key_code": "escape" }]
+                    "to": [{ "key_code": "insert" }]
                 }
             ],
             "virtual_hid_keyboard": {
