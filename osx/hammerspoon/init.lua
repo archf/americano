@@ -1,4 +1,8 @@
+---@diagnostic disable: undefined-global
+
+-- -------------------------
 -- Automatic config reload.
+-- -------------------------
 function reloadConfig(files)
   doReload = false
   for _, file in pairs(files) do
@@ -131,7 +135,6 @@ for key, appName in pairs(windows) do
         else
           app:activate(false)
         end
-
       else
         local launchName = windowLaunchNames[key] or appName
         hs.application.launchOrFocus(launchName)
@@ -157,38 +160,5 @@ hs.hotkey.bind(hyper, "q", function()
   end
 end)
 
--- hs.hotkey.bind(hyper, "f", function()
---   local win = hs.window.focusedWindow()
---   if win then
---     -- Toggles the window between zoomed/maximized state and original size
---     win:toggleFullScreen()
---   end
--- end
--- )
--- -- -- Load the MouseFollowsFocus Spoon
--- -- hs.loadSpoon("MouseFollowsFocus")
--- -- -- Start the Spoon
--- -- spoon.MouseFollowsFocus:start()
-
--- -- Optional: Define a hotkey to quickly stop/start the feature
--- hs.hotkey.bind({"cmd", "alt", "ctrl"}, "z", function()
---     if spoon.MouseFollowsFocus:isRunning() then
---         spoon.MouseFollowsFocus:stop()
---         hs.notify.show("MouseFollowsFocus", "Status", "Stopped")
---     else
---         spoon.MouseFollowsFocus:start()
---         hs.notify.show("MouseFollowsFocus", "Status", "Started")
---     end
--- end)
-
--- -- Load Hammerspoon Spoon installer
--- hs.loadSpoon("SpoonInstall")
--- -- Install and configure MouseFollowsFocus
--- spoon.SpoonInstall:andUse("MouseFollowsFocus", {
---     start = true,
---     config = {
---         followMouse = true
---     }
--- })
-
 require("dictation-router")
+-- require("focus-follow-mouse")

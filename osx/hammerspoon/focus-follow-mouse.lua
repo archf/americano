@@ -1,0 +1,36 @@
+-- using cursorcerer for now
+-- https://formulae.brew.sh/cask/cursorcerer
+--
+-- hs.hotkey.bind(hyper, "f", function()
+--   local win = hs.window.focusedWindow()
+--   if win then
+--     -- Toggles the window between zoomed/maximized state and original size
+--     win:toggleFullScreen()
+--   end
+-- end
+-- )
+-- -- -- Load the MouseFollowsFocus Spoon
+-- -- hs.loadSpoon("MouseFollowsFocus")
+-- -- -- Start the Spoon
+-- -- spoon.MouseFollowsFocus:start()
+
+-- -- Optional: Define a hotkey to quickly stop/start the feature
+-- hs.hotkey.bind({"cmd", "alt", "ctrl"}, "z", function()
+--     if spoon.MouseFollowsFocus:isRunning() then
+--         spoon.MouseFollowsFocus:stop()
+--         hs.notify.show("MouseFollowsFocus", "Status", "Stopped")
+--     else
+--         spoon.MouseFollowsFocus:start()
+--         hs.notify.show("MouseFollowsFocus", "Status", "Started")
+--     end
+-- end)
+
+-- -- Load Hammerspoon Spoon installer
+-- hs.loadSpoon("SpoonInstall")
+-- -- Install and configure MouseFollowsFocus
+-- spoon.SpoonInstall:andUse("MouseFollowsFocus", {
+--     start = true,
+--     config = {
+--         followMouse = true
+--     }
+-- })
