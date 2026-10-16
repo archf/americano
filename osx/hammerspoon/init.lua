@@ -1,5 +1,8 @@
 ---@diagnostic disable: undefined-global
 
+-- Enables the `hs` command-line tool.
+require("hs.ipc")
+
 -- -------------------------
 -- Automatic config reload.
 -- -------------------------
@@ -17,11 +20,6 @@ end
 
 myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.alert.show("Hammerspoon config loaded")
-
--- if you want to use a different keyboard combo, define it here.
--- local hyper = {"cmd", "alt"}
--- Remove ctrl to avoid triggering ctrl+w in neovim
-local hyper = { "cmd", "alt" }
 
 -- I: Internet, IRC
 -- M: Mail, Messages, Music
@@ -61,104 +59,54 @@ local hyper = { "cmd", "alt" }
 --  Manager settings)
 --
 -- define your own shortcut list here
-local windows = {
-  J = "VLC",           -- [J]ukebox
-  A = "VLC",           -- [A]udio
+--
+-- Entries are an application name, or { name = ..., bundle_id = ... }.
+-- The bundle ID avoids fuzzy name matching when finding and launching apps.
+-- Overriden in osx/hammerspoon/run-or-raise-aerospace.lua
+APPS = {
+  J = { name = "VLC", bundle_id = "org.videolan.vlc" },                                         -- [J]ukebox
+  A = { name = "VLC", bundle_id = "org.videolan.vlc" },                                         -- [A]udio
   -- M = "Messages", --
-  C = "Calculator",    -- [C]alculator
-  E = "Gmail",         -- [E]mail
-  G = "Google Chrome", -- [G]oogle Chrome
-  I = "Firefox",       -- [I]nternet
-  L = "Finder",        -- [l]s
-  P = "QtPass",        -- [P]Assword
-  S = "Slack",         -- [S]lack
-  T = "Alacritty",     -- Terminal
-  V = "Zoom",          -- VideoCall
-  O = "Settings",      -- Options // Settings
-  Z = "Zoom",
-  K = "Karabiner-Elements",
+  C = { name = "Calculator", bundle_id = "com.apple.calculator" },                              -- [C]alculator
+  E = { name = "Gmail", bundle_id = "com.google.Chrome.app.fmgjjmmmlfnkbppncabfkddbjimcfncm" }, -- [E]mail
+  G = { name = "Google Chrome", bundle_id = "com.google.Chrome" },                              -- [G]oogle Chrome
+  I = { name = "Firefox", bundle_id = "org.mozilla.firefox" },                                  -- [I]nternet
+  L = { name = "Finder", bundle_id = "com.apple.finder" },                                      -- [l]s
+  -- P = { name = "QtPass", bundle_id = "org.qtpass" },                                            -- [P]Assword
+  S = { name = "Slack", bundle_id = "com.tinyspeck.slackmacgap" },                              -- [S]lack
+  T = { name = "Alacritty", bundle_id = "org.alacritty" },                                      -- Terminal
+  V = { name = "Zoom", bundle_id = "us.zoom.xos" },                                             -- VideoCall
+  -- O = "Settings",      -- Options // Settings
+  -- Z = "Zoom",
+  -- K = "Karabiner-Elements",
   -- ['\\'] = "Hammerspoon", -- opens the Hammerspoon console. useful
 }
 
--- if the app has to be launched by a different name
--- than the one the windows are found by, this list
--- will take precedence when opening the app.
-local windowLaunchNames = {
-  -- currently just VS Code
-  -- V = "Visual Studio Code",
-}
+local aerospaceBundleID = "bobko.aerospace"
 
-local lastKey = ''
-local lastKeyTime = 0
-local lastWindowIndex = 1
-local appWindows = nil
-local doubleKeyThreshold = 1.2
--- set up the binding for each key combo
-for key, appName in pairs(windows) do
-  hs.hotkey.bind(hyper, key, function()
-    local keyTime = hs.timer.secondsSinceEpoch()
-    -- for a repeated key press, cycle through windows
-    if key == lastKey and keyTime - lastKeyTime < doubleKeyThreshold then
-      if appWindows == nil then
-        -- find the switchable windows
-        local app = hs.application.find(appName)
-        if app then
-          appWindows = hs.fnutils.filter(app:allWindows(), function(w)
-            return w:isStandard()
-          end)
-        end
-      end
-
-      if appWindows and #appWindows > 0 then
-        -- increment and loop
-        lastWindowIndex = lastWindowIndex % #appWindows + 1
-
-        -- focus the window (will switch to its space)
-        appWindows[lastWindowIndex]:focus()
-      end
-    else
-      -- switch to window
-      appWindows = nil
-      lastWindowIndex = 1
-
-      local app = hs.application.get(appName)
-      if app then
-        -- get the main window and focus it (will switch to its space)
-        -- This allows effectively switching back to the previous space. If
-        -- not, it would go only focus the window appname on the single
-        -- space 2nd monitor
-        -- app:activate(false)
-
-        local mainWindow = app:mainWindow()
-        if mainWindow then
-          mainWindow:focus()
-        else
-          app:activate(false)
-        end
-      else
-        local launchName = windowLaunchNames[key] or appName
-        hs.application.launchOrFocus(launchName)
-      end
-    end
-
-    lastKey = key
-    lastKeyTime = keyTime
-  end)
+local function aerospaceIsRunning()
+  return #hs.application.applicationsForBundleID(aerospaceBundleID) > 0
 end
 
--- Bind hyper+q to close the current window/app
-hs.hotkey.bind(hyper, "q", function()
-  local win = hs.window.focusedWindow()
-  if win then
-    local app = win:application()
-    if app then
-      -- Close the window
-      win:close()
-      -- Alternative: Quit the entire application instead
-      -- app:kill()
-    end
+if aerospaceIsRunning() then
+  require("run-or-raise-aerospace")
+else
+  require("run-or-raise")
+end
+
+local aerospaceWatcher = hs.application.watcher.new(function(_, event, app)
+  if not app or app:bundleID() ~= aerospaceBundleID then
+    return
+  end
+
+  if event == hs.application.watcher.launched
+      or event == hs.application.watcher.terminated then
+    hs.reload()
   end
 end)
 
+aerospaceWatcher:start()
+
 require("dictation-router")
+-- require("paperwm-setup").start(hyper)
 -- require("focus-follow-mouse")

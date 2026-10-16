@@ -72,6 +72,22 @@ osx: karabiner ## Install layout and karabiner configuration in osx desktop envi
 hammerspoon:
 	ln -sf $(CURDIR)/osx/hammerspoon/ ~/.hammerspoon
 
+HAMMERSPOON_SPOONS = PaperWM ActiveSpace WarpMouse Swipe
+
+.PHONY: hammerspoon-spoons
+hammerspoon-spoons: ## Install or update Hammerspoon Spoons (PaperWM and add-ons).
+	@mkdir -p osx/hammerspoon/Spoons
+	@for spoon in $(HAMMERSPOON_SPOONS); do \
+		dir=osx/hammerspoon/Spoons/$$spoon.spoon; \
+		if test -d $$dir/.git; then \
+			echo "Updating $$spoon.spoon"; \
+			git -C $$dir pull --ff-only --quiet || exit 1; \
+		else \
+			echo "Installing $$spoon.spoon"; \
+			git clone --depth 1 --quiet https://github.com/mogenson/$$spoon.spoon $$dir || exit 1; \
+		fi; \
+	done
+
 # Karabiner-Elements will fail to detect configuration file changes and reload
 # the configuration if karabiner.json is a symbolic link
 #		=> Ensure you create a symbolic link to the ~/.config/karabiner
