@@ -1,25 +1,32 @@
 ---
 -- Context-aware dictation router
 --
--- Karabiner always generates the real OpenWhisper shortcut:
+-- Karabiner generates the OpenWhisper shortcut configured in KEYBIND:
 --
---     Cmd+F15 DOWN
+--     trigger DOWN
 --          ... held ...
---     Cmd+F15 UP
+--     trigger UP
 --
 -- Hammerspoon observes that event:
 --
 --   ChatGPT
---     -> consume Cmd+F15
---     -> emit Ctrl+Shift+D once
+--     -> consume trigger
+--     -> emit Ctrl+Shift+D according to the route's mode
 --
 --   Gemini
---     -> consume Cmd+F15
---     -> emit Cmd+Shift+D once
+--     -> consume trigger
+--     -> emit Cmd+Shift+D according to the route's mode
 --
 --   everything else
 --     -> do NOT consume anything
---     -> original Cmd+F15 reaches OpenWhisper untouched
+--     -> original trigger reaches OpenWhisper untouched
+--
+-- Both routes apply in Google Chrome and Firefox. The ChatGPT shortcut has
+-- to be configured in ChatGPT settings once per browser profile; Gemini's
+-- shortcut is the same in both.
+--
+-- The trigger key and the emitted shortcuts are configured in KEYBIND and
+-- ROUTES below.
 --
 
 ---@diagnostic disable: undefined-global
@@ -27,10 +34,74 @@
 local CHROME = "com.google.Chrome"
 local FIREFOX = "org.mozilla.firefox"
 
-local interceptedTarget = nil
+local BROWSER_NAMES = {
+  [CHROME] = "Chrome",
+  [FIREFOX] = "Firefox",
+}
 
-local function dictationLog(message)
-  print("[dictation] " .. message)
+----------------------------------------------------------------------
+-- Configuration
+----------------------------------------------------------------------
+
+-- Input shortcut produced by Karabiner. Modifiers must match exactly:
+-- use {} for no modifiers or { "cmd" } for Cmd only.
+-- macOS adds an Fn flag to function keys; it is ignored unless listed.
+-- Supported modifiers: cmd, ctrl, alt, shift, fn.
+-- Karabiner maps physical Left Ctrl to F15 with a simple modification,
+-- then wraps F15 with a held Cmd in a complex modification. Caps Lock's
+-- Left Ctrl output never matches that F15-only wrapper.
+local KEYBIND = {
+  key = "f15",
+  mods = { "cmd" }, -- Cmd+F15, held until physical Left Ctrl is released
+}
+
+local DEBUG = false -- Enable one decision log per input press, not repeats.
+
+-- Dictation shortcut emitted per routed target.
+--
+--   domains: active tab URL matches one of these domains
+--   titles:  window title contains one of these strings, used only when the
+--            URL is unavailable or has no parseable domain
+--   key:     key to emit, with the modifiers in `flags`
+--   mode:    "hold" sends a stroke on press and release, for shortcuts
+--            that toggle recording; "toggle" sends a stroke only on press;
+--            "keyhold" holds the emitted key until the input is released,
+--            for shortcuts that natively support hold-to-record
+--
+-- OpenWhisper always receives the original held input unchanged. Its
+-- hold/toggle preference is configured in OpenWhisper, not these routes.
+local ROUTES = {
+  {
+    -- Configured in ChatGPT keyboard settings. Cmd+Shift+D would conflict
+    -- with the browser's "bookmark all tabs" shortcut.
+    target = "ChatGPT",
+    mode = "hold",
+    domains = { "chatgpt.com", "chat.openai.com" },
+    titles = { "chatgpt" },
+    key = "d",
+    flags = { ctrl = true, shift = true },
+  },
+  {
+    target = "Gemini",
+    mode = "hold",
+    domains = { "gemini.google.com" },
+    titles = { "google gemini" },
+    key = "d",
+    flags = { cmd = true, shift = true },
+  },
+}
+
+for _, route in ipairs(ROUTES) do
+  assert(route.mode == "hold" or route.mode == "toggle" or route.mode == "keyhold",
+    "dictation-router: unknown mode for " .. route.target .. ": " .. tostring(route.mode))
+end
+
+local activePress = nil
+
+local function log(message)
+  if DEBUG then
+    print("[dictation] " .. message)
+  end
 end
 
 ----------------------------------------------------------------------
@@ -46,7 +117,7 @@ local function normalizeURL(value)
   return stringValue:match("(https?://[^%s]+)") or stringValue
 end
 
-local function domainFromURL(url)
+local function getDomainFromURL(url)
   if not url then
     return nil
   end
@@ -55,7 +126,7 @@ local function domainFromURL(url)
   return domain and domain:lower() or nil
 end
 
-local function domainMatches(domain, expected)
+local function matchDomain(domain, expected)
   if not domain then
     return false
   end
@@ -68,17 +139,47 @@ local function domainMatches(domain, expected)
 end
 
 ----------------------------------------------------------------------
+-- Routing table lookup
+----------------------------------------------------------------------
+
+local function getRoute(context)
+  for _, route in ipairs(ROUTES) do
+    for _, domain in ipairs(route.domains or {}) do
+      if matchDomain(context.domain, domain) then
+        return route, "domain"
+      end
+    end
+
+    if context.domain == nil then
+      local title = context.title:lower()
+
+      for _, expected in ipairs(route.titles or {}) do
+        if title:find(expected:lower(), 1, true) then
+          return route, "title"
+        end
+      end
+    end
+  end
+
+  return nil
+end
+
+----------------------------------------------------------------------
 -- Chrome URL
 ----------------------------------------------------------------------
 
-local function chromeURL()
+local function getChromeURL()
   local ok, result = hs.osascript.applescript([[
         tell application "Google Chrome"
             if (count of windows) = 0 then
                 return ""
             end if
 
-            return URL of active tab of front window
+            try
+                return URL of active tab of front window
+            on error
+                return ""
+            end try
         end tell
     ]])
 
@@ -93,7 +194,7 @@ end
 -- Firefox URL
 ----------------------------------------------------------------------
 
-local function axAttribute(element, attribute)
+local function getAXAttribute(element, attribute)
   if not element then
     return nil
   end
@@ -105,29 +206,29 @@ local function axAttribute(element, attribute)
   return ok and value or nil
 end
 
-local function firefoxURLFromFocusedElement(axApp)
-  local element = axAttribute(axApp, "AXFocusedUIElement")
+local function getFirefoxURLFromFocusedElement(axApp)
+  local element = getAXAttribute(axApp, "AXFocusedUIElement")
 
   for _ = 1, 40 do
     if not element then
       break
     end
 
-    if axAttribute(element, "AXRole") == "AXWebArea" then
-      local url = axAttribute(element, "AXURL")
+    if getAXAttribute(element, "AXRole") == "AXWebArea" then
+      local url = getAXAttribute(element, "AXURL")
       if url then
         return normalizeURL(url)
       end
     end
 
-    element = axAttribute(element, "AXParent")
+    element = getAXAttribute(element, "AXParent")
   end
 
   return nil
 end
 
-local function firefoxURLFromWindow(axApp)
-  local root = axAttribute(axApp, "AXFocusedWindow")
+local function getFirefoxURLFromWindow(axApp)
+  local root = getAXAttribute(axApp, "AXFocusedWindow")
   if not root then
     return nil
   end
@@ -142,14 +243,14 @@ local function firefoxURLFromWindow(axApp)
     position = position + 1
     inspected = inspected + 1
 
-    if axAttribute(element, "AXRole") == "AXWebArea" then
-      local url = axAttribute(element, "AXURL")
+    if getAXAttribute(element, "AXRole") == "AXWebArea" then
+      local url = getAXAttribute(element, "AXURL")
       if url then
         return normalizeURL(url)
       end
     end
 
-    local children = axAttribute(element, "AXChildren")
+    local children = getAXAttribute(element, "AXChildren")
     if type(children) == "table" then
       for _, child in ipairs(children) do
         queue[#queue + 1] = child
@@ -160,22 +261,22 @@ local function firefoxURLFromWindow(axApp)
   return nil
 end
 
-local function firefoxURL(app)
+local function getFirefoxURL(app)
   local axApp = hs.axuielement.applicationElement(app)
 
   if not axApp then
     return nil
   end
 
-  return firefoxURLFromFocusedElement(axApp)
-      or firefoxURLFromWindow(axApp)
+  return getFirefoxURLFromFocusedElement(axApp)
+      or getFirefoxURLFromWindow(axApp)
 end
 
 ----------------------------------------------------------------------
 -- Current browser context
 ----------------------------------------------------------------------
 
-local function currentBrowserContext()
+local function getBrowserContext()
   local app = hs.application.frontmostApplication()
 
   if not app then
@@ -193,118 +294,178 @@ local function currentBrowserContext()
   local url
 
   if bundle == CHROME then
-    url = chromeURL()
+    url = getChromeURL()
   elseif bundle == FIREFOX then
-    url = firefoxURL(app)
+    url = getFirefoxURL(app)
   end
 
   return {
+    app = app,
     bundle = bundle,
     title = title,
     url = url,
-    domain = domainFromURL(url)
+    domain = getDomainFromURL(url)
   }
 end
 
 ----------------------------------------------------------------------
 -- Emit browser shortcut
 --
--- setFlags() is intentional. Cmd is still held by Karabiner as part
--- of Cmd+F15, so we explicitly define the modifiers attached to D.
+-- setFlags() is intentional. The trigger modifiers are still held by
+-- Karabiner, so we explicitly define the modifiers attached to the key.
 ----------------------------------------------------------------------
 
-local function exactKeyStroke(key, flags)
-  local down = hs.eventtap.event.newKeyEvent({}, key, true)
-  down:setFlags(flags)
-  down:post()
+local function postExactKeyEvent(key, flags, isDown, app)
+  local event = hs.eventtap.event.newKeyEvent({}, key, isDown)
+  event:setFlags(flags)
+  event:post(app)
+end
+
+-- Serialize strokes so a quick release cannot post a second keyDown before
+-- the first stroke's keyUp. Each queued stroke retains its destination app.
+local shortcutQueue = {}
+local shortcutInFlight = false
+
+local function postNextShortcut()
+  if shortcutInFlight or #shortcutQueue == 0 then
+    return
+  end
+
+  local shortcut = table.remove(shortcutQueue, 1)
+  shortcutInFlight = true
+  postExactKeyEvent(shortcut.key, shortcut.flags, true, shortcut.app)
 
   hs.timer.doAfter(0.02, function()
-    local up = hs.eventtap.event.newKeyEvent({}, key, false)
-    up:setFlags(flags)
-    up:post()
+    postExactKeyEvent(shortcut.key, shortcut.flags, false, shortcut.app)
+    shortcutInFlight = false
+    postNextShortcut()
   end)
 end
 
+local function postExactKeyStroke(key, flags, app)
+  shortcutQueue[#shortcutQueue + 1] = { key = key, flags = flags, app = app }
+  postNextShortcut()
+end
+
 ----------------------------------------------------------------------
--- Cmd+F15 interception
+-- Shortcut helpers
+----------------------------------------------------------------------
+
+local MODIFIER_ORDER = { "cmd", "ctrl", "alt", "shift", "fn" }
+local MODIFIER_LABELS = {
+  cmd = "Cmd",
+  ctrl = "Ctrl",
+  alt = "Alt",
+  shift = "Shift",
+  fn = "Fn",
+}
+
+local function formatShortcutLabel(key, flags)
+  local parts = {}
+
+  for _, name in ipairs(MODIFIER_ORDER) do
+    if flags[name] then
+      parts[#parts + 1] = MODIFIER_LABELS[name]
+    end
+  end
+
+  parts[#parts + 1] = key:upper()
+  return table.concat(parts, "+")
+end
+
+----------------------------------------------------------------------
+-- Trigger interception
 ----------------------------------------------------------------------
 
 local eventTypes = hs.eventtap.event.types
 local eventProperties = hs.eventtap.event.properties
-local f15KeyCode = hs.keycodes.map.f15
+local triggerKeyCode = assert(
+  hs.keycodes.map[KEYBIND.key],
+  "dictation-router: unknown trigger key: " .. tostring(KEYBIND.key)
+)
+local triggerFlags = {}
+for _, modifier in ipairs(KEYBIND.mods) do
+  triggerFlags[modifier] = true
+end
+local triggerLabel = formatShortcutLabel(KEYBIND.key, triggerFlags)
+local ignoreImplicitFn = KEYBIND.key:match("^f%d+$") ~= nil and not triggerFlags.fn
 
 ---@diagnostic disable-next-line: lowercase-global
 dictationEventTap = hs.eventtap.new({
   eventTypes.keyDown,
   eventTypes.keyUp
 }, function(event)
-  if event:getKeyCode() ~= f15KeyCode then
+  if event:getKeyCode() ~= triggerKeyCode then
     return false
   end
 
   local eventType = event:getType()
   local flags = event:getFlags()
   local isRepeat =
-      event:getProperty(eventProperties.keyboardEventAutorepeat) == 1
-
-  -- Log every incoming F15 event before filtering.
-  dictationLog(string.format(
-    "F15 %s | cmd=%s | repeat=%s | intercepted=%s",
-    eventType == eventTypes.keyDown and "DOWN" or "UP",
-    tostring(flags.cmd == true),
-    tostring(isRepeat),
-    interceptedTarget or "<none>"
-  ))
+      event:getProperty(eventProperties.keyboardEventAutorepeat) ~= 0
 
   if eventType == eventTypes.keyUp then
-    local swallow = interceptedTarget ~= nil
-    interceptedTarget = nil
-    return swallow
+    local press = activePress
+    activePress = nil
+    if not press then
+      return false
+    end
+
+    local route = press.route
+    if route.mode == "hold" then
+      postExactKeyStroke(route.key, route.flags, press.app)
+    elseif route.mode == "keyhold" then
+      postExactKeyEvent(route.key, route.flags, false, press.app)
+    end
+    return true
   end
 
-  if isRepeat then
-    return interceptedTarget ~= nil
+  -- Latch the selected route for the entire press. Repeats and duplicate
+  -- downs must not restart recording or change the release destination.
+  if isRepeat or activePress then
+    return activePress ~= nil
   end
 
-  -- Every non-repeating down starts a new routing decision.
-  -- Previous interception state must never block it.
-  interceptedTarget = nil
+  -- getFlags() returns a separate Lua table; removing Fn here does not
+  -- change the original event delivered to OpenWhisper.
+  if ignoreImplicitFn then
+    flags.fn = nil
+  end
 
-  if not flags.cmd then
+  if not flags:containExactly(KEYBIND.mods) then
+    log("input rejected | expected " .. triggerLabel
+      .. " | received " .. formatShortcutLabel(KEYBIND.key, flags))
     return false
   end
 
-  local context = currentBrowserContext()
-  if not context then
-    dictationLog("route -> OpenWhisper | passing original Cmd+F15 through")
+  local context = getBrowserContext()
+  local route, matchKind = nil, nil
+
+  if context then
+    route, matchKind = getRoute(context)
+  end
+
+  if not route then
+    log("route -> OpenWhisper | passing original "
+      .. triggerLabel .. " through")
     return false
   end
 
-  if domainMatches(context.domain, "chatgpt.com") or
-      domainMatches(context.domain, "chat.openai.com") then
-    interceptedTarget = "chatgpt"
-    dictationLog("route -> ChatGPT | swallow Cmd+F15 | emit Ctrl+Shift+D")
-    exactKeyStroke("d", { ctrl = true, shift = true })
-    return true
+  activePress = { route = route, app = context.app }
+  log(string.format(
+    "route -> %s%s | browser=%s | domain=%s | mode=%s | swallow %s | emit %s",
+    route.target,
+    matchKind == "title" and " (title fallback)" or "",
+    BROWSER_NAMES[context.bundle] or context.bundle,
+    context.domain or "<none>",
+    route.mode,
+    triggerLabel,
+    formatShortcutLabel(route.key, route.flags)
+  ))
+  if route.mode == "keyhold" then
+    postExactKeyEvent(route.key, route.flags, true, context.app)
+  else
+    postExactKeyStroke(route.key, route.flags, context.app)
   end
-
-  -- TODO: dictation shortcutcan be configured in ChatGPT keyboard settings,
-  -- but it conflits with the bookmark all tabs shortcut
-  if domainMatches(context.domain, "gemini.google.com") then
-    interceptedTarget = "gemini"
-    dictationLog("route -> Gemini | swallow Cmd+F15 | emit Cmd+Shift+D")
-    exactKeyStroke("d", { cmd = true, shift = true })
-    return true
-  end
-
-  if context.bundle == FIREFOX and
-      context.title:lower():find("google gemini", 1, true) then
-    interceptedTarget = "gemini"
-    dictationLog("route -> Gemini (title fallback) | swallow Cmd+F15 | emit Cmd+Shift+D")
-    exactKeyStroke("d", { cmd = true, shift = true })
-    return true
-  end
-
-  dictationLog("route -> OpenWhisper | passing original Cmd+F15 through")
-  return false
+  return true
 end):start()
